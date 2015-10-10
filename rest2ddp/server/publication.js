@@ -11,11 +11,13 @@ config = {
   path: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
 };
 
-Meteor.publish("rest2ddp", function () {
+Meteor.publish("rest2ddp", function (apiConfigName) {
+  console.log("Starting publication", apiConfigName);
+  
   var self = this;
   var lastResult;
   
-  Meteor.setInterval(() => {
+  var intervalHandle = Meteor.setInterval(() => {
     // stringify and parse so that we're sure to have a deep copy
     // var result = JSON.parse(JSON.stringify(data));
     
@@ -43,6 +45,22 @@ Meteor.publish("rest2ddp", function () {
       // console.log ("No difference");
     } else {
       // console.log('@@@', "diff", diff);
+      
+      // NOTE: We're not really taking advantage of the diff library right now,
+      // there are two issues:
+      //
+      // 1. Unfortunately we can't tell yet that an object was inserted into the
+      // array and the following items just shifted down, currently all items
+      // after the inserted one will appear as changes.
+      // We might as well be just walking the two arrays (result and lastResult)
+      // and doing a changed event for each object that's different.
+      //
+      // 2. Changes should be just the (top-level) field that changed. Right now
+      // we send the whole object (all fields). The diff library *can* tell us
+      // exactly which fields changed but we're not using it.
+      //
+      // We'll fix those in a future iteration.
+      
       for (var diffItem of diff) {
         if (diffItem.kind === "A" && diffItem.index && diffItem.path === undefined) {
           if (diffItem.item.kind === "D") {
@@ -80,7 +98,12 @@ Meteor.publish("rest2ddp", function () {
       });
       changed.forEach((doc, id) => {
         console.log("changed", id, ":", doc);
-        self.changed(config.collectionName, id, doc);
+        // This is really inefficient but for now we're not tracking changes by field
+        // so to be sure that we unset any field that has been removed we
+        // remove and re-add the object. 😰
+        // Soon we'll diff the object with the old one and send the changes.
+        self.removed(collectionName, id);
+        self.added(collectionName, id, doc);
       });
       
     
@@ -88,4 +111,8 @@ Meteor.publish("rest2ddp", function () {
     self.ready();
   }, 5000);
   
+    self.onStop(() => {
+      console.log("Stopping publication", apiConfigName);
+      Meteor.clearInterval(intervalHandle);
+    });
 });
