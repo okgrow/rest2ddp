@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 http
 accounts-ui
 accounts-github
+semantic:ui
