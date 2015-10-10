@@ -1,21 +1,11 @@
-// hard-coded data structure that will eventually come from an API call
-data = [
-  {a: 1, id: 1},
-  {b: 2, id: 2}
-];
-
-// hard-coded config that will eventually come from a collection
-config = {
-  collectionName: "testCollection", // the name of the collection that this api call's results will be published to
-  restUrl: "http://api.duckduckgo.com/?q=meteor&format=json&pretty=1",
-  jsonPath: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
-};
-
 Meteor.publish("rest2ddp", function (apiConfigName) {
   console.log("Starting publication", apiConfigName);
   
   var self = this;
-  var lastResult;
+  var lastResults = new Map();
+  
+  var config = ApiConfigs.findOne({name: apiConfigName});
+  console.log('@@@', config); // TODO remove this, for debugging only
   
   var intervalHandle = Meteor.setInterval(() => {
     // stringify and parse so that we're sure to have a deep copy
@@ -29,22 +19,22 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     
     // console.log('@@@', "result", result);
 
-    var diff = DeepDiff.diff(lastResult, result);
+    var diff = DeepDiff.diff(lastResults.get(apiConfigName), result);
     
     var added = new Map();
     var removed = new Map();
     var changed = new Map();
 
-    if (!lastResult) {
+    if (!lastResults.get(apiConfigName)) {
       // this is the first time, all are new
       for (var i = 0; i < result.length; i++) {
-        // console.log("@@@ Rule 0: added", i, result[i]);
-        self.added(config.collectionName, i, result[i]);
+        console.log("@@@ Rule 0: added", i, result[i]);
+        self.added(config.collectionName, `${apiConfigName}-${i}`, result[i]);
       }
     } else if (!diff) {
-      // console.log ("No difference");
+      console.log ("@@@ No difference");
     } else {
-      console.log('@@@', "diff", diff);
+      console.log('@@@ Diff', diff);
       
       // NOTE: We're not really taking advantage of the diff library right now,
       // there are two issues:
@@ -52,7 +42,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
       // 1. Unfortunately we can't tell yet that an object was inserted into the
       // array and the following items just shifted down, currently all items
       // after the inserted one will appear as changes.
-      // We might as well be just walking the two arrays (result and lastResult)
+      // We might as well be just walking the two arrays (result and lastResults)
       // and doing a changed event for each object that's different.
       //
       // 2. Changes should be just the (top-level) field that changed. Right now
@@ -90,11 +80,11 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     
       added.forEach((doc, id) => {
         console.log("added", id, ":", doc);
-        self.added(config.collectionName, id, doc);
+        self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
       });
       removed.forEach((doc, id) => {
         console.log("removed", id, ":", doc);
-        self.removed(config.collectionName, id);
+        self.removed(config.collectionName, `${apiConfigName}-${id}`);
       });
       changed.forEach((doc, id) => {
         console.log("changed", id, ":", doc);
@@ -102,12 +92,12 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
         // so to be sure that we unset any field that has been removed we
         // remove and re-add the object. 😰
         // Soon we'll diff the object with the old one and send the changes.
-        self.removed(collectionName, id);
-        self.added(collectionName, id, doc);
+        self.removed(collectionName, `${apiConfigName}-${id}`);
+        self.added(collectionName, `${apiConfigName}-${id}`, doc);
       });
       
     
-    lastResult = result;
+    lastResults.set(apiConfigName, result);
     self.ready();
   }, 5000);
   
