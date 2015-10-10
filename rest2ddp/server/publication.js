@@ -7,8 +7,8 @@ data = [
 // hard-coded config that will eventually come from a collection
 config = {
   collectionName: "testCollection", // the name of the collection that this api call's results will be published to
-  url: "http://api.duckduckgo.com/?q=meteor&format=json&pretty=1",
-  path: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
+  restUrl: "http://api.duckduckgo.com/?q=meteor&format=json&pretty=1",
+  jsonPath: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
 };
 
 Meteor.publish("rest2ddp", function (apiConfigName) {
@@ -21,11 +21,11 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     // stringify and parse so that we're sure to have a deep copy
     // var result = JSON.parse(JSON.stringify(data));
     
-    var rawResult = HTTP.get(config.url);
+    var rawResult = HTTP.get(config.restUrl);
     if (rawResult.statusCode !== 200) {
       throw new Meteor.error("HTTP-request-failed", "The HTTP request failed with status code: " + rawResult.statusCode);
     }
-    var result = JsonPath.query(JSON.parse(rawResult.content), config.path);
+    var result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
     
     // console.log('@@@', "result", result);
 
@@ -44,7 +44,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     } else if (!diff) {
       // console.log ("No difference");
     } else {
-      // console.log('@@@', "diff", diff);
+      console.log('@@@', "diff", diff);
       
       // NOTE: We're not really taking advantage of the diff library right now,
       // there are two issues:
