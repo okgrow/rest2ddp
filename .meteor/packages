@@ -25,3 +25,7 @@ kadira:flow-router
 twbs:bootstrap
 kadira:blaze-layout
 mquandalle:jade
+aldeed:simple-schema
+aldeed:autoform
+momentjs:moment
+aldeed:collection2
