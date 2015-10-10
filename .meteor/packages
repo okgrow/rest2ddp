@@ -24,3 +24,4 @@ accounts-github
 semantic:ui
 kadira:flow-router
 twbs:bootstrap
+kadira:blaze-layout
