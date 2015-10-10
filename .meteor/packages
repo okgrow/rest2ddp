@@ -21,7 +21,7 @@ insecure                # Allow all DB writes from clients (for prototyping)
 http
 accounts-ui
 accounts-github
-semantic:ui
 kadira:flow-router
 twbs:bootstrap
 kadira:blaze-layout
+mquandalle:jade
