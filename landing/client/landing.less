@@ -1,13 +1,22 @@
+@base: #2ecc71;
+
 #landing {
-  background-color: #2ecc71;
+  background-color: @base;
   min-height: 500px;
   color: white;
+  nav {
+    background-color: @base;
+    border: none;
+    a {
+      color: white;
+    }
+  }
   h1 {
-  	padding-top: 100px;
+  	padding-top: 50px;
   	margin-top: 0;
   }
-  p {
-  	padding: 25px 0px;
+  h3 {
+  	padding-bottom: 25px;
   }
 }
 
@@ -21,7 +30,7 @@
     padding: 10px 15px;
   }
   #example {
-    background-color: #2ecc71;
+    background-color: @base;
     color: white;
     padding: 25px 15px;
     border-radius: 5px;

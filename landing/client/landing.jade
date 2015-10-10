@@ -1,5 +1,12 @@
 template(name="landing")
   #landing.text-center
+    nav.navbar.navbar-default
+     .container
+      .navbar-header
+       a.navbar-brand API2DDP
+      ul.nav.navbar-nav.navbar-right  
+       li
+        +loginButtons
     h1 This is the landing page
     h3 REST2DDP is a great way to turn any REST API into DDP.
     button.btn.btn-default.btn-lg.github-signup Get Started
@@ -21,10 +28,10 @@ template(name="landing")
             )
     #example.row   
         .col-md-6
-            h3 JSON
+            h3 JSON Output
             .display-results
         .col-md-6     
-            h3 Output   
+            h3 Meteor Output   
             .display-results
   #start
     p.text-center Start using this now.              
