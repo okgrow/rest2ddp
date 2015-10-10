@@ -101,8 +101,8 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     self.ready();
   }, 5000);
   
-    self.onStop(() => {
-      console.log("Stopping publication", apiConfigName);
-      Meteor.clearInterval(intervalHandle);
-    });
+  self.onStop(() => {
+    console.log("Stopping publication", apiConfigName);
+    Meteor.clearInterval(intervalHandle);
+  });
 });
