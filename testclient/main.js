@@ -2,9 +2,9 @@
 
 if (Meteor.isClient) {
   testCollection = new Mongo.Collection("testCollection");
-  Meteor.subscribe("rest2ddp", "testCollection");
+  Meteor.subscribe("rest2ddp", "test");
   
   Tracker.autorun(function () {
-    console.log(testCollection.find({}, {sort: {_id: 1}}).fetch())
-  })
+    console.log(testCollection.find({}, {sort: {_id: 1}}).fetch());
+  });
 }

@@ -11,11 +11,13 @@ config = {
   path: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
 };
 
-Meteor.publish("rest2ddp", function () {
+Meteor.publish("rest2ddp", function (apiConfigName) {
+  console.log("Starting publication", apiConfigName);
+  
   var self = this;
   var lastResult;
   
-  Meteor.setInterval(() => {
+  var intervalHandle = Meteor.setInterval(() => {
     // stringify and parse so that we're sure to have a deep copy
     // var result = JSON.parse(JSON.stringify(data));
     
@@ -80,7 +82,12 @@ Meteor.publish("rest2ddp", function () {
       });
       changed.forEach((doc, id) => {
         console.log("changed", id, ":", doc);
-        self.changed(config.collectionName, id, doc);
+        // This is really inefficient but for now we're not tracking changes by field
+        // so to be sure that we unset any field that has been removed we
+        // remove and re-add the object. 😰
+        // Soon we'll diff the object with the old one and send the changes.
+        self.removed(collectionName, id);
+        self.added(collectionName, id, doc);
       });
       
     
@@ -88,4 +95,8 @@ Meteor.publish("rest2ddp", function () {
     self.ready();
   }, 5000);
   
+    self.onStop(() => {
+      console.log("Stopping publication", apiConfigName);
+      Meteor.clearInterval(intervalHandle);
+    });
 });
