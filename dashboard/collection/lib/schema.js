@@ -3,12 +3,8 @@ RESTDDP = new Mongo.Collection('RESTDDP');
 RESTDDP.attachSchema(new SimpleSchema({
   name: {
     type: String,
-    label: 'Name of this Configuration'
-  },
-  description: {
-    type: String,
-    label: 'Description (optional)',
-    optional: true
+    label: 'Name of this Configuration',
+    unique: true
   },
   // name of collection that results should be published into
   collectionName: {
