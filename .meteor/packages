@@ -27,3 +27,8 @@ kadira:blaze-layout
 mquandalle:jade
 less
 npm-packages
+aldeed:simple-schema
+aldeed:autoform
+momentjs:moment
+aldeed:collection2
+less
