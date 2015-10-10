@@ -3,3 +3,9 @@ FlowRouter.route('/dashboard', {
     BlazeLayout.render('dashboard');
   }
 });
+
+FlowRouter.route('/afExample', {
+  action: function() {
+    BlazeLayout.render('afExample');
+  }
+});

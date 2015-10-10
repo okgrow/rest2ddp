@@ -1,0 +1,16 @@
+template(name="afExample")
+  #afExample
+    h1 AutoForms Example
+    +autoForm(id="afExample" type="insert" collection="ApiConfigs")
+      fieldset
+        legend Add a API Config
+        +afQuickField name="name"
+        +afQuickField name="description"
+        +afQuickField name="collectionName"
+        +afQuickField name="jsonPath"
+        +afQuickField name="restUrl"
+        +afQuickField name="restAuth"
+        +afQuickField name="jsonPath"
+        .form-group
+          button.btn.btn-primary(type="submit") Add API Config
+          button.btn.btn-default(type="reset") Reset Form
