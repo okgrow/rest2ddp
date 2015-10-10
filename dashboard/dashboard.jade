@@ -1,3 +1,37 @@
 template(name="dashboard")
   #dashboard
-    h1 HELLO WORLD!!!!
+    #dashboard-nav
+      .dash-left
+        .dashboard-head Dashboard
+      .dash-right
+        .dash-nav Link
+        .dash-nav Link
+
+    .left-column
+      #configurations
+        ul
+          li A Name
+          li Another Name
+          li No way
+          li.active Ben Strahan?!
+          li Yes way
+
+    .right-column
+      #configuration-fields
+        h5 Configuration
+        input(type="text" name="name" placeholder="name" value="Ben Strahan?!")
+        br
+        input(type="text" name="url" placeholder="API URL")
+        br
+        input(type="text" name="config" placeholder="JSONPath Config")
+        br
+        input(type="text" name="auth" placeholder="Auth")
+
+        hr
+
+        .left
+          h5 JSON Output
+          textarea(name="JSONOutput" placeholder="JSON output goes here")
+        .right
+          h5 Meteor Output
+          textarea(name="MeteorOutput" placeholder="Meteor output goes here")

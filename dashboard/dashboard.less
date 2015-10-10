@@ -1,3 +1,109 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
+
+body {
+  background-color: #ecf0f1;
+  font-family: 'Open Sans', sans-serif;
+}
 #dashboard {
-  background-color: purple;
+  width: 950px;
+  position: relative;
+  margin: 0 auto;
+  display: block;
+  height: 800px;
+  .left-column {
+    width: 225px;
+    display: inline-block;
+    float: left;
+    background-color: #229955;
+    height: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom: 1px solid #bdc3c7;
+  }
+  .right-column {
+    width: 725px;
+    display: inline-block;
+    float: right;
+    height: 100%;
+    padding: 20px;
+    background-color: white;
+    border-bottom-right-radius: 5px;
+    border-bottom: 1px solid #bdc3c7;
+    border-right: 1px solid #bdc3c7;
+  }
+}
+
+#configurations {
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-top: 1px solid #19703e;
+    li {
+      height: 50px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid #19703e;
+      background-color: #27ae60;
+      color: white;
+      line-height: 50px;
+      padding-left: 20px;
+      text-shadow: 0px -1px 0px #19703e;
+      cursor: pointer;
+      &:hover, &.active {
+        background-color: #2cc36b;
+      }
+      &:active {
+        box-shadow: inset 0px 1px 4px rgba(0,0,0,0.2);
+        border-top: 1px solid rgba(0,0,0,0.2);
+      }
+    }
+  }
+}
+
+#dashboard-nav {
+  height: 50px;
+  display: block;
+  position: relative;
+  background-color: #2ecc71;
+  color: white;
+  text-shadow: 0px -1px 0px #27ae60;
+  .dash-left {
+    float: left;
+    display: inline-block;
+    .dashboard-head {
+      line-height: 50px;
+      padding-left: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .dash-right {
+    float: right;
+    display: inline-block;
+    padding-right: 10px;
+    .dash-nav {
+      display: inline-block;
+      padding: 0 10px;
+      line-height: 50px;
+    }
+  }
+}
+
+#configuration-fields {
+  .left, .right {
+    width: 48.5%;
+    min-width: 48.5%;
+    textarea {
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 400px;
+    }
+  }
+  .left {
+    float: left;
+    display: inline-block;
+  }
+  .right {
+    float: right;
+    display: inline-block;
+  }
 }
