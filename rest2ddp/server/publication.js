@@ -82,7 +82,12 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
       });
       changed.forEach((doc, id) => {
         console.log("changed", id, ":", doc);
-        self.changed(config.collectionName, id, doc);
+        // This is really inefficient but for now we're not tracking changes by field
+        // so to be sure that we unset any field that has been removed we
+        // remove and re-add the object. 😰
+        // Soon we'll diff the object with the old one and send the changes.
+        self.removed(collectionName, id);
+        self.added(collectionName, id, doc);
       });
       
     
