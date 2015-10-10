@@ -11,11 +11,13 @@ config = {
   path: "$.RelatedTopics.*" // a JsonPath expression to pick out the array we want from the API result
 };
 
-Meteor.publish("rest2ddp", function () {
+Meteor.publish("rest2ddp", function (apiConfigName) {
+  console.log("Starting publication", apiConfigName);
+  
   var self = this;
   var lastResult;
   
-  Meteor.setInterval(() => {
+  var intervalHandle = Meteor.setInterval(() => {
     // stringify and parse so that we're sure to have a deep copy
     // var result = JSON.parse(JSON.stringify(data));
     
@@ -88,4 +90,8 @@ Meteor.publish("rest2ddp", function () {
     self.ready();
   }, 5000);
   
+    self.onStop(() => {
+      console.log("Stopping publication", apiConfigName);
+      Meteor.clearInterval(intervalHandle);
+    });
 });
