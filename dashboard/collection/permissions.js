@@ -1,4 +1,4 @@
-ApiConfigs.allow({
+RESTDDP.allow({
   // TODO: permissions need to be locked down once we have accounts
   insert: function () {
     return true;

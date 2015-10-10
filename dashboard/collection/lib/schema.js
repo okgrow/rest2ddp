@@ -1,6 +1,6 @@
-ApiConfigs = new Mongo.Collection('apiConfigs');
+RESTDDP = new Mongo.Collection('RESTDDP');
 
-ApiConfigs.attachSchema(new SimpleSchema({
+RESTDDP.attachSchema(new SimpleSchema({
   name: {
     type: String,
     label: 'Name of this Configuration'
@@ -40,7 +40,8 @@ ApiConfigs.attachSchema(new SimpleSchema({
     index: true,
     autoform: {
       omit: true
-    }
+    },
+    optional: true
   },
   // Force value to be current date (on server) upon insert
   // and prevent updates thereafter.
