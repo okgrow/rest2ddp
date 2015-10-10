@@ -30,7 +30,7 @@ ApiConfigs.attachSchema(new SimpleSchema({
     optional: true
   },
   "restAuth.secretKey": {
-    ype: String,
+    type: String,
     label: 'Secret Key (optional)',
     optional: true
   },
