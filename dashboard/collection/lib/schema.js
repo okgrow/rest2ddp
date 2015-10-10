@@ -3,29 +3,35 @@ ApiConfigs = new Mongo.Collection('apiConfigs');
 ApiConfigs.attachSchema(new SimpleSchema({
   name: {
     type: String,
-    optional: true
+    label: 'Name of this Configuration'
   },
   description: {
     type: String,
+    label: 'Description (optional)',
     optional: true
   },
   // name of collection that results should be published into
   collectionName: {
     type: String,
-    optional: true
+    label: 'Name of collection'
   },
   //JsonPath expression to locate the array within the API results
   jsonPath: {
     type: String,
-    optional: true
+    label: 'JSON path to returned array'
   },
   restUrl: {
     type: String,
-    optional: true
+    label: 'REST endpoint URL'
   },
   restAuth: {
     type: Object,
     blackbox: true,
+    optional: true
+  },
+  "restAuth.secretKey": {
+    ype: String,
+    label: 'Secret Key (optional)',
     optional: true
   },
   userId: {
