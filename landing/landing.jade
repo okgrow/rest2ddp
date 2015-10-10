@@ -1,3 +1,31 @@
 template(name="landing")
-  #landing
+  #landing.text-center
     h1 This is the landing page
+    h3 REST2DDP is a great way to turn any REST API into DDP.
+    button.btn.btn-default.btn-lg Get Started
+  #working
+    h1.text-center This is a very cool example
+    p.text-center Enter a url to your favourite API and corresponding JSON path.
+    .row
+        .col-md-6
+            input(
+              type='text'
+              placeholder='Enter an API URL'
+              class='form-control'
+            )
+        .col-md-6    
+            input(
+              type='text'
+              placeholder='Enter a JSON Path'
+              class='form-control'
+            )
+    #example.row   
+        .col-md-6
+            h3 JSON
+            .display-results
+        .col-md-6     
+            h3 Output   
+            .display-results
+  #start
+    p.text-center Start using this now.              
+    button.center-block.btn.btn-success.btn-lg Get Started            
