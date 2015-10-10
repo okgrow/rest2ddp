@@ -1,6 +1,6 @@
-RESTDDP = new Mongo.Collection('RESTDDP');
+ApiConfigs = new Mongo.Collection('ApiConfigs');
 
-RESTDDP.attachSchema(new SimpleSchema({
+ApiConfigs.attachSchema(new SimpleSchema({
   name: {
     type: String,
     label: 'Name of this Configuration',
