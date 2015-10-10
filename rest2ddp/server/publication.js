@@ -63,12 +63,15 @@ Meteor.publish("rest2ddp", function () {
     
       added.forEach((doc, id) => {
         console.log("added", id, ":", doc);
+        self.added(config.collectionName, id, doc);
       });
       removed.forEach((doc, id) => {
         console.log("removed", id, ":", doc);
+        self.removed(config.collectionName, id);
       });
       changed.forEach((doc, id) => {
         console.log("changed", id, ":", doc);
+        self.changed(config.collectionName, id, doc);
       });
       
     
