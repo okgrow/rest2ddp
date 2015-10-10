@@ -18,11 +18,17 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
-http
-accounts-ui
+
 accounts-github
-kadira:flow-router
-twbs:bootstrap
+accounts-ui
+aldeed:autoform
+aldeed:collection2
+aldeed:simple-schema
+http
 kadira:blaze-layout
-mquandalle:jade
+kadira:flow-router
 less
+momentjs:moment
+mquandalle:jade
+npm-packages
+twbs:bootstrap
