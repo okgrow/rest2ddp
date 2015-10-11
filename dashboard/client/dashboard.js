@@ -15,7 +15,7 @@ Template.dashboard.helpers({
 		return Session.get('output');
 	},
 	stringify: function(str) {
-		return JSON.stringify(str);
+		return JSON.stringify(str, null, 2);
 	}
 });
 
