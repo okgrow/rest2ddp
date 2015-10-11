@@ -32,29 +32,53 @@ template(name="dashboard")
 
       +if activeConfig
         +unless currentUser
+          //- * * * THIS IS THE LANDING EXAMPLE DASHBOARD * * *
+          #fields
+            +autoForm(id="ApiConfigs" doc=activeConfig collection="ApiConfigs")
+              fieldset
+                legend Configuration
+                +afQuickField name="name" disabled=true
+                +afQuickField name="collectionName" disabled=true
+                +afQuickField name="jsonPath" disabled=true
+                +afQuickField name="restUrl" disabled=true
+                +afQuickField name="pollInterval" disabled=true
+
+            legend 2. Output
+            .left
+              h5 JSON Output
+              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+            .right
+              h5 Meteor Output
+              textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+                +each output.result
+                  | {{stringify this}}
+
+        +else
+          //- * * * THIS IS THE ACTUAL WORKING DASHBOARD * * *
           #fields
             button.delete-btn Remove Config
             +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
-                fieldset
-                  legend Configuration
-                  +afQuickField name="name"
-                  +afQuickField name="collectionName"
-                  +afQuickField name="jsonPath"
-                  +afQuickField name="restUrl"
-                  +afQuickField name="pollInterval"
-
-        +else
-          #fields
-            +autoForm(id="ApiConfigs"  doc=activeConfig collection="ApiConfigs")
               fieldset
                 legend 1. Configuration
                 +afQuickField name="name"
                 p This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
                 hr
                 +afQuickField name="collectionName"
+                p Tell us the name of your app's collection that will publish this data to your clients.
+                hr
                 +afQuickField name="jsonPath"
+                 p REST APIs return a lot of junk, but we are only interested in the array of juicy data! We have no idea where that array of data is and need you to tell us.
+                | We use the JSON Path library for you to tell us what array to use for DDP. Your path must always be an array and end with a wildcard (*). Check out the
+                a(href="https://www.npmjs.com/package/jsonpath" target="_blank") jsonpath docs here
+                | . Example:
+                .pre-span $.RelatedTopics.*
+                hr
                 +afQuickField name="restUrl"
+                p This is the URL of the REST call. Dynamic parameters coming in a later release.
+                hr
                 +afQuickField name="pollInterval"
+                p Tell us how often you want us to poll & diff the REST endpoint in seconds.
+                hr
 
               legend 2. Output
               .left
