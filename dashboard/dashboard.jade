@@ -43,16 +43,35 @@ template(name="dashboard")
                 +afQuickField name="restUrl" disabled=true
                 +afQuickField name="pollInterval" disabled=true
 
-            legend 2. Output
+            legend(style="margin-top: 25px;") Output
             .left
-              h4 JSON Output
+              h4 Raw API Response
+              br
               h5 Status Code: {{output.statusCode}}
+              br
               h5 Headers
-              p {{stringify output.headers}}
-              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
+              table.table              
+                thead
+                  tr
+                    th Header Name
+                    th Header Value
+                tbody
+                  +each toArray output.headers
+                    tr
+                      +each this
+                        td {{this}}
+
+              h5 Body Content
+              textarea.json-output(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
             .right
-              h4 Meteor Collection Output
-              textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+              h4
+                | Transformed into a DDP Subscription!
+                .span.neckbeard
+                .span.magic
+              br
+              h5 Meteor Collection Output
+              p.dash-tooltip This is the data your app will receive when you subscribe!
+              textarea.meteor-output(name="MeteorOutput" placeholder="Meteor output goes here")
                 +each output.result
                   | {{stringify this}}
 
