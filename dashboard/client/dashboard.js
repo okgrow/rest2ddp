@@ -22,7 +22,8 @@ Template.dashboard.helpers({
 Template.dashboard.events({
   'click .add-btn': function () {
     var x = ApiConfigs.insert({
-      name: Random.id()
+      name: Random.id(),
+      userId: Meteor.userId()
     });
     console.log(x);
     Session.set("activeConfig", x);
