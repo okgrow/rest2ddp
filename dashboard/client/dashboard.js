@@ -3,8 +3,14 @@ Template.dashboard.helpers({
     return ApiConfigs.find({}, {sort: {createdAt: 1}});
   },
   activeConfig: function () {
-    var x = Session.get("activeConfig");
-    return x && ApiConfigs.findOne(x);
+    if(Meteor.userId()) {
+      var x = Session.get("activeConfig");
+      return x && ApiConfigs.findOne(x);
+    } else {
+      var sample = EXAMPLE_SEED[1];
+      sample.name = "TorontoWeather";
+      return sample
+    }
   },
   isActive: function(id) {
     if (id === Session.get("activeConfig")) {

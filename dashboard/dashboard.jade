@@ -1,5 +1,4 @@
-template(name="dashboard")
-  #dashboard
+template(name="dashboardNav")
     #layout-nav
       .layout-nav-left
         .layout-nav-head REST2DDP Dashboard
@@ -7,6 +6,11 @@ template(name="dashboard")
         .layout-nav-item.dash-help Help
         .layout-nav-item
           +loginButtons
+
+template(name="dashboard")
+  #dashboard
+    +if currentUser
+      +dashboardNav
 
     .left-column
       #configurations
@@ -27,9 +31,21 @@ template(name="dashboard")
       hr
 
       +if activeConfig
-        #fields
-          button.delete-btn Remove Config
-          +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+        +if currentUser
+          #fields
+            button.delete-btn Remove Config
+            +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+                fieldset
+                  legend Configuration
+                  +afQuickField name="name"
+                  +afQuickField name="collectionName"
+                  +afQuickField name="jsonPath"
+                  +afQuickField name="restUrl"
+                  +afQuickField name="pollInterval"
+
+        +else
+          #fields
+            +autoForm(id="ApiConfigs"  doc=activeConfig collection="ApiConfigs")
             fieldset
               legend 1. Configuration
               +afQuickField name="name"
@@ -40,24 +56,24 @@ template(name="dashboard")
               +afQuickField name="restUrl"
               +afQuickField name="pollInterval"
 
-          legend 2. Output
-          .left
-            h5 JSON Output
-            textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
-          .right
-            h5 Meteor Output
-            textarea(name="MeteorOutput" placeholder="Meteor output goes here")
-              +each output.result
-                | {{stringify this}}
+            legend 2. Output
+            .left
+              h5 JSON Output
+              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+            .right
+              h5 Meteor Output
+              textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+                +each output.result
+                  | {{stringify this}}
 
-          legend 3. Use it in your app!
-          +with activeConfig
-            h4 Anywhere (Client and/or Server)
-            pre
-              | REST2DDP = DDP.connect("{{url}}");
-              | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-              | REST2DDP.subscribe("rest2ddp", "{{name}}");
-              | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
+            legend 3. Use it in your app!
+            +with activeConfig
+              h4 Anywhere (Client and/or Server)
+              pre
+                | REST2DDP = DDP.connect("{{url}}");
+                | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
+                | REST2DDP.subscribe("rest2ddp", "{{name}}");
+                | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
 
       +else
         h4 &larr; Yo son, you ain't got no configs. Go make one!
