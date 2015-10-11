@@ -1,11 +1,17 @@
 Meteor.publish("rest2ddp", function (apiConfigName) {
+  var self = this;
+  check(apiConfigName, String);
+  
   console.log("Starting publication", apiConfigName);
   
-  var self = this;
   var lastResults = new Map();
   
   var config = ApiConfigs.findOne({name: apiConfigName});
-  console.log('@@@', config); // TODO remove this, for debugging only
+  // console.log('@@@', config); // TODO remove this, for debugging only
+  
+  if (!config) {
+    throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
+  }
   
   var pollInterval = config.pollInterval || 10;
   
@@ -13,7 +19,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     
     var rawResult = HTTP.get(config.restUrl);
     if (rawResult.statusCode !== 200) {
-      throw new Meteor.error("HTTP-request-failed", "The HTTP request failed with status code: " + rawResult.statusCode);
+      throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed with status code: " + rawResult.statusCode);
     }
     var result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
     
@@ -77,24 +83,25 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
         }
       }
     }
-    
-      added.forEach((doc, id) => {
-        console.log("added", id, ":", doc);
-        self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
-      });
-      removed.forEach((doc, id) => {
-        console.log("removed", id, ":", doc);
-        self.removed(config.collectionName, `${apiConfigName}-${id}`);
-      });
-      changed.forEach((doc, id) => {
-        console.log("changed", id, ":", doc);
-        // This is really inefficient but for now we're not tracking changes by field
-        // so to be sure that we unset any field that has been removed we
-        // remove and re-add the object. 😰
-        // Soon we'll diff the object with the old one and send the changes.
-        self.removed(collectionName, `${apiConfigName}-${id}`);
-        self.added(collectionName, `${apiConfigName}-${id}`, doc);
-      });
+  
+    console.log('@@@', added); // TODO remove this, for debugging only
+    added.forEach((doc, id) => {
+      console.log("added", id, ":", doc);
+      self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
+    });
+    removed.forEach((doc, id) => {
+      console.log("removed", id, ":", doc);
+      self.removed(config.collectionName, `${apiConfigName}-${id}`);
+    });
+    changed.forEach((doc, id) => {
+      console.log("changed", id, ":", doc);
+      // This is really inefficient but for now we're not tracking changes by field
+      // so to be sure that we unset any field that has been removed we
+      // remove and re-add the object. 😰
+      // Soon we'll diff the object with the old one and send the changes.
+      self.removed(collectionName, `${apiConfigName}-${id}`);
+      self.added(collectionName, `${apiConfigName}-${id}`, doc);
+    });
       
     
     lastResults.set(apiConfigName, result);

@@ -24,6 +24,7 @@ accounts-ui
 aldeed:autoform
 aldeed:collection2
 aldeed:simple-schema
+check
 http
 kadira:blaze-layout
 kadira:flow-router
