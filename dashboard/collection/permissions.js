@@ -1,12 +1,9 @@
+var ownsDocument = function(userId, doc) {
+  return doc && userId && doc.userId === userId;
+};
+
 ApiConfigs.allow({
-  // TODO: permissions need to be locked down once we have accounts
-  insert: function () {
-    return true;
-  },
-  update: function () {
-    return true;
-  },
-  remove: function () {
-    return true;
-  }
+  insert: ownsDocument,
+  update: ownsDocument,
+  remove: ownsDocument
 });
