@@ -6,6 +6,9 @@ Meteor.methods({
       var rawResult;
       var result;
       var error;
+      
+      replaceVarInConfig(config, variables);
+      
       try {
         rawResult = HTTP.get(config.restUrl);
       } catch (e) {
@@ -13,7 +16,7 @@ Meteor.methods({
         error = e;
       }
 
-      if (rawResult.statusCode && rawResult.statusCode == 200) {
+      if (!error && rawResult.statusCode && rawResult.statusCode == 200) {
         try {
           result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
         } catch (e) {
