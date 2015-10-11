@@ -41,7 +41,6 @@ Template.dashboard.events({
 Template.dashboard.rendered = function () {
   var x = ApiConfigs.findOne()._id;
   Session.set("activeConfig", x);
-<<<<<<< HEAD
 
   window.onresize = function(event) {
     if (window.innerHeight <= 825) {
@@ -52,6 +51,3 @@ Template.dashboard.rendered = function () {
     $("#dashboard").height(window.innerHeight - 95);
   }
 }
-=======
-}
->>>>>>> 6dd4c92157635144d6cc7b16304117052324bdf8
