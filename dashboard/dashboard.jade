@@ -98,20 +98,37 @@ template(name="dashboard")
 
               legend 3. Output
               .left
-                h4 JSON Output
-                h5 Status Code {{output.statusCode}}
+                h4 Raw API Response
+                br
+                h5 Status Code: {{output.statusCode}}
+                br
                 h5 Headers
-                textarea.headers {{stringify output.headers}}
-                h5 JSON
+                table.table              
+                  thead
+                    tr
+                      th Header Name
+                      th Header Value
+                  tbody
+                    +each toArray output.headers
+                      tr
+                        +each this
+                          td {{this}}
+
+                h5 Body Content
                 textarea.json-output(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
               .right
+                h4
+                  | Transformed into a DDP Subscription!
+                  .span.neckbeard
+                  .span.magic
+                br
                 h5 Your Collection
                 p.dash-tooltip This is the data your app will receive when you subscribe!
                 textarea.meteor-output(name="MeteorOutput" placeholder="Meteor output goes here")
                   +each output.result
                     | {{stringify this}}
 
-              legend 3. Use it in your app!
+              legend(style="padding-top: 25px;") 3. How to Use
               +with activeConfig
                 h4 Anywhere (Client and/or Server)
                 pre

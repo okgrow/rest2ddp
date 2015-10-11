@@ -52,6 +52,10 @@ Template.dashboard.helpers({
   },
   hasVariables: function() {
     return variableNames.length == 0;
+  },
+  toArray: function (object) {
+    console.log(_.pairs(object));
+    return _.pairs(object);
   }
 });
 
