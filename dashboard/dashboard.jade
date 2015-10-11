@@ -23,6 +23,7 @@ template(name="dashboard")
 
     .right-column
       #configuration-fields
+        button.btn.delete-btn Remove Config
         +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
           fieldset
             legend Configuration

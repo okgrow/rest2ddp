@@ -27,6 +27,12 @@ Template.dashboard.events({
     console.log(x);
     Session.set("activeConfig", x);
   },
+  'click .delete-btn': function (e,t) {
+    var x = Session.get("activeConfig");
+    Session.set("activeConfig",ApiConfigs.findOne()._id);
+    t.$(".delete-btn").blur();
+    return ApiConfigs.remove(x);
+  },
   'click .config-listing li': function () {
     Session.set("activeConfig", this._id);
   }
