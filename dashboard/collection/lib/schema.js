@@ -9,18 +9,18 @@ ApiConfigs.attachSchema(new SimpleSchema({
   // name of collection that results should be published into
   collectionName: {
     type: String,
-    label: 'Name of collection',
+    label: 'Name of Collection',
     optional: true
   },
   //JsonPath expression to locate the array within the API results
   jsonPath: {
     type: String,
-    label: 'JSON path to returned array',
+    label: 'JSON Path to Returned Array',
     optional: true
   },
   restUrl: {
     type: String,
-    label: 'REST endpoint URL',
+    label: 'REST Endpoint URL',
     optional: true
   },
   restAuth: {
