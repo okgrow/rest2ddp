@@ -36,6 +36,9 @@ Template.dashboard.events({
   },
   'click .config-listing li': function () {
     Session.set("activeConfig", this._id);
+  },
+  'click .dash-help': function () {
+    $('#help-modal').modal('toggle')
   }
 });
 
