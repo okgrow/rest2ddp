@@ -112,46 +112,52 @@ template(name="dashboard")
                    | ${{{this}}}  
                   input(type='text' data-label='{{this}}' placeholder='Define "{{this}}" here' class='form-control variable') 
               br
-              legend 3. Output
-              .left
-                h4 Raw API Response
-                br
-                h5 Status Code: {{output.statusCode}}
-                br
-                h5 Headers
-                table.table              
-                  thead
-                    tr
-                      th Header Name
-                      th Header Value
-                  tbody
-                    +each toArray output.headers
+              +unless requestFail
+                legend 3. Output
+                .left
+                  h4 Raw API Response
+                  br
+                  h5 Status Code: {{output.statusCode}}
+                  br
+                  h5 Headers
+                  table.table              
+                    thead
                       tr
-                        +each this
-                          td {{this}}
+                        th Header Name
+                        th Header Value
+                    tbody
+                      +each toArray output.headers
+                        tr
+                          +each this
+                            td {{this}}
 
-                h5 Body Content
-                textarea.json-output(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
-              .right
-                h4
-                  | Transformed into a DDP Subscription!
-                  .span.neckbeard
-                  .span.magic
-                br
-                h5 Your Collection
-                p.dash-tooltip This is the data your app will receive when you subscribe!
-                textarea.meteor-output(name="MeteorOutput" placeholder="Meteor output goes here")
-                  +each output.result
-                    | {{stringify this}}
+                  h5 Body Content
+                  textarea.json-output(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
+                .right
+                  h4
+                    | Transformed into a DDP Subscription!
+                    .span.neckbeard
+                    .span.magic
+                  br
+                  h5 Your Collection
+                  p.dash-tooltip This is the data your app will receive when you subscribe!
+                  textarea.meteor-output(name="MeteorOutput" placeholder="Meteor output goes here")
+                    +each output.result
+                      | {{stringify this}}
 
-              legend(style="padding-top: 25px;") 4. How to Use
-              +with activeConfig
-                h4 Anywhere (Client and/or Server)
-                pre
-                  | REST2DDP = DDP.connect("{{url}}");
-                  | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-                  | REST2DDP.subscribe("rest2ddp", "{{name}}", {{exampleVariables}});
-                  | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
+                legend(style="padding-top: 25px;") 4. How to Use
+                +with activeConfig
+                  h4 Anywhere (Client and/or Server)
+                  pre
+                    | REST2DDP = DDP.connect("{{url}}");
+                    | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
+                    | REST2DDP.subscribe("rest2ddp", "{{name}}", {{exampleVariables}});
+                    | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
+
+              +else
+                h5.failed HTTP Request Failed
+                p.failed-p Once the configurations are fixed the output will be generated!
+                p.failed-p {{requestFailMessage}}
 
       +else
         h4 &larr; Yo son, you ain't got no configs. Go make one!

@@ -57,6 +57,10 @@ Template.dashboard.helpers({
   },
   toArray: function (object) {
     return object && _.pairs(object);
+  },
+  requestFail: function () {
+    console.log("alalsdkalkdfsjalkd", Session.get("requestFail"));
+    return Session.get("requestFail");
   }
 });
 
@@ -104,10 +108,17 @@ Template.dashboard.rendered = function () {
   Tracker.autorun(() => {
     var x = activeConfigId.get();
     var config = ApiConfigs.findOne(x);
+
     var re = /\$\{([a-z\-]*)\}/g;
     var variableInputs = Session.get('variableInputs');
 
     Meteor.call('previewApiResult', config, variableInputs, function (err, result) {
+      console.log(err, result);
+      if (err || (result && !result.statusCode)) {
+        Session.set("requestFail", true);
+      } else {
+        Session.set("requestFail", false);
+      }
       Session.set('output', result);
     });
   });
