@@ -96,7 +96,7 @@ template(name="dashboard")
                 pre
                   | REST2DDP = DDP.connect("{{url}}");
                   | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-                  | REST2DDP.subscribe("rest2ddp", "{{name}}");
+                  | REST2DDP.subscribe("rest2ddp", "{{name}}", {{exampleVariables}});
                   | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
 
       +else

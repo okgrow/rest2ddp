@@ -1,6 +1,6 @@
 Meteor.methods({
-  previewApiResult: function (config) {
-    // TODO check(config)
+  previewApiResult: function (config, variables) {
+    // TODO check() and other error handling
     
     if (!this.isSimulation && config && config.restUrl && config.jsonPath) {
       var rawResult;

@@ -14,15 +14,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
   }
   
-  if (variables) {
-    for (var key of Object.keys(config)) {
-      for (var varName of Object.keys(variables)) {
-        if (typeof config[key] === 'string') {
-          config[key] = config[key].replace("${" + varName + "}", variables[varName], 'g');
-        }
-      }
-    }
-  }
+  replaceVarInConfig(config, variables);
   // console.log('@@@ config after replace', config);
   
   var pollInterval = config.pollInterval || 10;

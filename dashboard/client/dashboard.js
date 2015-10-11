@@ -1,17 +1,37 @@
+var activeConfig = function () {
+  if(Meteor.userId()) {
+    var x = Session.get("activeConfig");
+    return x && ApiConfigs.findOne(x);
+  } else {
+    var sample = EXAMPLE_SEED[1];
+    sample.name = "TorontoWeather";
+    return sample;
+  }
+};
+
+var variableNames = function () {
+console.log('@@@', "variableNames"); // TODO remove this, for debugging only
+  var config = activeConfig();
+  var names = [];
+  for (var key of Object.keys(config)) {
+    console.log('@@@', config[key]); // TODO remove this, for debugging only
+    var re = /\$\{([a-z\-]*)\}/g;
+    
+    var match;
+    while ((match = re.exec(config[key]))) {
+      console.log('@@@', match); // TODO remove this, for debugging only
+      names.push(match[1]);
+    }
+  }
+  console.log('@@@', "names", names); // TODO remove this, for debugging only
+  return names;
+};
+
 Template.dashboard.helpers({
   ApiConfigs: function () {
     return ApiConfigs.find({}, {sort: {createdAt: 1}});
   },
-  activeConfig: function () {
-    if(Meteor.userId()) {
-      var x = Session.get("activeConfig");
-      return x && ApiConfigs.findOne(x);
-    } else {
-      var sample = EXAMPLE_SEED[1];
-      sample.name = "TorontoWeather";
-      return sample
-    }
-  },
+  activeConfig: activeConfig,
   isActive: function(id) {
     if (id === Session.get("activeConfig")) {
       return true;
@@ -24,7 +44,17 @@ Template.dashboard.helpers({
 		return JSON.stringify(str, null, 2);
 	},
   url: function() {
+    console.log('@@@', "url"); // TODO remove this, for debugging only
     return Meteor.absoluteUrl();
+  },
+  variableNames: variableNames,
+  exampleVariables: function() {
+    console.log('@@@', "exampleVariables"); // TODO remove this, for debugging only
+    var variables = {};
+    for (var key of variableNames()) {
+      variables[key] = "TODO";
+    }
+    return JSON.stringify(variables);
   }
 });
 
