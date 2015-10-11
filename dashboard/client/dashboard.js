@@ -41,7 +41,8 @@ Template.dashboard.events({
 
 Template.dashboard.rendered = function () {
   // set first ApiConfig as current
-  var x = ApiConfigs.findOne()._id;
+  var apiConfig = ApiConfigs.findOne();
+  var x = apiConfig && apiConfig._id;
   Session.set("activeConfig", x);
   
   // call previewApiResult whenever activeConfig changes

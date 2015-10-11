@@ -1,10 +1,15 @@
 Meteor.methods({
   previewApiResult: function (config) {
-    console.log("previewApiResult called"); // TODO remove this, for debugging only
     if (!this.isSimulation) {
-      var rawResult = HTTP.get(config.restUrl);
+      var rawResult;
       var result;
       var error;
+      try {
+        rawResult = HTTP.get(config.restUrl);
+      } catch (e) {
+        console.log(e);
+        error = e;
+      }
 
       if (rawResult.statusCode == 200) {
         try {

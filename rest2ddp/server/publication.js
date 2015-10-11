@@ -17,11 +17,25 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
   
   var intervalHandle = Meteor.setInterval(() => {
     
-    var rawResult = HTTP.get(config.restUrl);
-    if (rawResult.statusCode !== 200) {
-      throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed with status code: " + rawResult.statusCode);
+    var rawResult;
+    try {
+      rawResult = HTTP.get(config.restUrl);
+    } catch (e) {
+      console.log(e);
+      throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed");
     }
-    var result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
+    
+    if (rawResult.statusCode !== 200) {
+      throw new Meteor.Error("HTTP-error-code", "The HTTP request failed with status code: " + rawResult.statusCode);
+    }
+    
+    var result;
+    try {
+      result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
+    } catch (e) {
+      console.log(e);
+      throw new Meteor.Error("result-parse-error", "Couldn't parse the results");
+    }
     
     // console.log('@@@', "result", result);
 
