@@ -54,7 +54,7 @@ Template.dashboard.helpers({
     return variableNames.length == 0;
   },
   toArray: function (object) {
-    return _.pairs(object);
+    return object && _.pairs(object);
   }
 });
 
