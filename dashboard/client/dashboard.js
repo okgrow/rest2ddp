@@ -53,7 +53,7 @@ Template.dashboard.helpers({
     return JSON.stringify(variables);
   },
   hasVariables: function() {
-    return variableNames.length == 0;
+    return variableNames.length === 0;
   },
   toArray: function (object) {
     return object && _.pairs(object);
