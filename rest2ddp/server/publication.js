@@ -8,8 +8,6 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
   console.log('@@@', config); // TODO remove this, for debugging only
   
   var intervalHandle = Meteor.setInterval(() => {
-    // stringify and parse so that we're sure to have a deep copy
-    // var result = JSON.parse(JSON.stringify(data));
     
     var rawResult = HTTP.get(config.restUrl);
     if (rawResult.statusCode !== 200) {
@@ -17,7 +15,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     }
     var result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
     
-    // console.log('@@@', "result", result);
+    console.log('@@@', "result", result);
 
     var diff = DeepDiff.diff(lastResults.get(apiConfigName), result);
     
