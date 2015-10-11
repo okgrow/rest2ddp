@@ -10,7 +10,19 @@ Template.dashboard.helpers({
     if (id === Session.get("activeConfig")) {
       return true;
     }
-  }
+  },
+	output: function() {
+		var x = Session.get("activeConfig");
+		var cool = ApiConfigs.findOne(x);
+
+		Meteor.call('previewApiResult', cool, function (err, result) {
+	    	Session.set('output', result);
+	    });
+		return Session.get('output');
+	},
+	stringify: function(str) { 
+		return JSON.stringify(str);
+	}
 });
 
 Template.dashboard.events({

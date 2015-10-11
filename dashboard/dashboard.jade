@@ -34,7 +34,9 @@ template(name="dashboard")
 
         .left
           h5 JSON Output
-          textarea(name="JSONOutput" placeholder="JSON output goes here")
+          textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
         .right
           h5 Meteor Output
           textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+            +each output.result
+             {{stringify this}}
