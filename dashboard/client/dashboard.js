@@ -49,6 +49,9 @@ Template.dashboard.helpers({
       variables[key] = "TODO";
     }
     return JSON.stringify(variables);
+  },
+  hasVariables: function() {
+    return variableNames.length == 0;
   }
 });
 
@@ -86,9 +89,9 @@ Template.dashboard.rendered = function () {
   // call previewApiResult whenever activeConfig changes
   Tracker.autorun(() => {
     var x = Session.get("activeConfig");
-    var cool = ApiConfigs.findOne(x);
-
-    Meteor.call('previewApiResult', cool, function (err, result) {
+    var config = ApiConfigs.findOne(x);
+    console.log(config.restUrl)
+    Meteor.call('previewApiResult', config, function (err, result) {
       Session.set('output', result);
     });
   });

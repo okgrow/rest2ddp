@@ -84,7 +84,19 @@ template(name="dashboard")
                 p.dash-tooltip Tell us how often you want us to poll & diff the REST endpoint in seconds.
                 hr
 
-              legend 2. Output
+                 
+               legend 2. Variable Inputs
+                p.dash-tooltip Want to add custom Oauth variables to your REST Endpoints URLs? That's easy. Simply add '${example}' anywhere in your url and define it's assocaited value here.  
+                +if hasVariables  
+                 +each variableNames
+                  .form-group
+                   label
+                    {{this}} : 
+                    input(type='text' placeholder='Define {{this}} here' class='form-control variables')
+                 +unless hasVariables
+                  p You have no inputs. Here's how you set them up.
+
+              legend 3. Output
               .left
                 h4 JSON Output
                 h5 Status Code {{output.statusCode}}
