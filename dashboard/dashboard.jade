@@ -12,25 +12,25 @@ template(name="dashboard")
     +if currentUser
       +dashboardNav
 
-    .left-column
-      #configurations
-        ul.config-listing
-          +each ApiConfigs
-            +if isActive _id
-              li.active
-                | {{name}}
-                .arrow
-            +else
-              li {{name}}
+      .left-column
+        #configurations
+          ul.config-listing
+            +each ApiConfigs
+              +if isActive _id
+                li.active
+                  | {{name}}
+                  .arrow
+              +else
+                li {{name}}
 
-        .add-btn +
+          .add-btn +
 
     .right-column
       +if activeConfig
         +if currentUser
-        #configuration-fields
-          button.delete-btn Remove Config
-          +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+          #configuration-fields
+            button.delete-btn Remove Config
+            +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
               fieldset
                 legend Configuration
                 +afQuickField name="name"
@@ -41,7 +41,7 @@ template(name="dashboard")
 
         +else
           #configuration-fields
-            +autoForm(id="ApiConfigs"  doc=activeConfig collection="ApiConfigs")
+            +autoForm(id="ApiConfigs" doc=activeConfig collection="ApiConfigs")
             fieldset
               legend Configuration
               +afQuickField name="name"
@@ -66,7 +66,7 @@ template(name="dashboard")
         h4 &larr; Yo son, you ain't got no configs. Go make one!
 
     +if currentUser
-    .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
+      .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
 
   #connect-steps.modal.fade
     .modal-dialog
