@@ -12,12 +12,6 @@ Template.dashboard.helpers({
     }
   },
 	output: function() {
-		var x = Session.get("activeConfig");
-		var cool = ApiConfigs.findOne(x);
-
-		Meteor.call('previewApiResult', cool, function (err, result) {
-	    	Session.set('output', result);
-	    });
 		return Session.get('output');
 	},
 	stringify: function(str) {
@@ -39,8 +33,20 @@ Template.dashboard.events({
 });
 
 Template.dashboard.rendered = function () {
+  // set first ApiConfig as current
   var x = ApiConfigs.findOne()._id;
   Session.set("activeConfig", x);
+  
+  // call previewApiResult whenever activeConfig changes
+  Tracker.autorun(() => {
+    var x = Session.get("activeConfig");
+    var cool = ApiConfigs.findOne(x);
+
+    Meteor.call('previewApiResult', cool, function (err, result) {
+      Session.set('output', result);
+    });
+  });
+
 
   window.onresize = function(event) {
     if (window.innerHeight <= 825) {
@@ -50,4 +56,4 @@ Template.dashboard.rendered = function () {
   if (window.innerHeight <= 825) {
     $("#dashboard").height(window.innerHeight - 95);
   }
-}
+};
