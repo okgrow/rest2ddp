@@ -42,6 +42,9 @@ Template.dashboard.events({
   },
   'click .dash-help': function () {
     $('#help-modal').modal('toggle')
+  },
+  'click .connect-steps-btn': function () {
+    $('#connect-steps').modal('toggle')
   }
 });
 

@@ -34,6 +34,8 @@ template(name="dashboard")
               +afQuickField name="restUrl"
               +afQuickField name="pollInterval"
 
+          .btn.btn-primary.btn-block.connect-steps-btn Show Steps to Connect Your App
+
           hr
 
           .left
@@ -48,6 +50,24 @@ template(name="dashboard")
         h4 &larr; Yo son, you ain't got no configs. Go make one!
 
     .love Hacked together ♥ by Paul, Dave, Karl & Ben
+
+  #connect-steps.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+          h4.modal-title Connect your app to this DDP
+        .modal-body
+          +with activeConfig
+            h4 Anywhere (Client and/or Server)
+            pre REST2DDP = DDP.connect("http://rest2ddp.meteor.com");
+            pre {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
+            hr
+            h4 Client
+            pre REST2DDP.subscribe("rest2ddp", "{{name}}");
+            pre Tracker.autorun(function () {console.log({{collectionName}}.find({}, {sort: {_id: 1}}).fetch());});
+
 
   #help-modal.modal.fade
     .modal-dialog

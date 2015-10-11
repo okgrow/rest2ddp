@@ -20,6 +20,7 @@ ApiConfigs.attachSchema(new SimpleSchema({
   },
   restUrl: {
     type: String,
+    regEx: SimpleSchema.RegEx.Url,
     label: 'REST Endpoint URL',
     optional: true
   },
