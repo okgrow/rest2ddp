@@ -19,11 +19,13 @@ Meteor.methods({
         }
       }
 
-      return {
+      return rawResult ? {
         statusCode: rawResult.statusCode,
         headers: rawResult.headers,
         content: rawResult.content,
         result: result,
+        error: error
+      } : {
         error: error
       };
     }
