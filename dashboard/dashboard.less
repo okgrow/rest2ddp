@@ -20,7 +20,6 @@ body {
     border-bottom-left-radius: 5px;
     border-bottom: 1px solid #1e8449;
     border-left: 1px solid #229955;
-    border-right: 1px solid #229955;
     overflow: scroll;
   }
   .right-column {
@@ -38,12 +37,24 @@ body {
 }
 
 #configurations {
+  .arrow {
+    width: 0;
+    height: 0;
+    border-top: 26px solid transparent;
+    border-bottom: 26px solid transparent;
+    border-right: 15px solid white;
+    position: absolute;
+    right: -1px;
+    margin-top: -52px;
+  }
+
   ul {
     padding: 0;
     margin: 0;
     list-style: none;
     // border-top: 1px solid #229955;
     li {
+      position: relative;
       height: 50px;
       border-top: 1px solid rgba(255,255,255,0.2);
       border-bottom: 1px solid #229955;
@@ -57,9 +68,13 @@ body {
       text-overflow: ellipsis;
       padding-right: 20px;
       overflow: hidden;
+      border-right: 1px solid #229955;
       &:hover, &.active {
         background-color: #2cc36b;
         text-shadow: 0px -1px 0px #27ae60;
+      }
+      &.active {
+        border-right: none;
       }
       &:active {
         box-shadow: inset 0px 1px 4px rgba(0,0,0,0.2);

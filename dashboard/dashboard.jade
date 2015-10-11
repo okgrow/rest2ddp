@@ -13,7 +13,9 @@ template(name="dashboard")
         ul.config-listing
           +each ApiConfigs
             +if isActive _id
-              li.active {{name}}
+              li.active
+                {{name}}
+                .arrow
             +else
               li {{name}}
 
