@@ -1,5 +1,4 @@
-template(name="dashboard")
-  #dashboard
+template(name="dashboardNav")
     #layout-nav
       .layout-nav-left
         .layout-nav-head REST2DDP Dashboard
@@ -7,6 +6,11 @@ template(name="dashboard")
         .layout-nav-item.dash-help Help
         .layout-nav-item
           +loginButtons
+
+template(name="dashboard")
+  #dashboard
+    +if currentUser
+      +dashboardNav
 
     .left-column
       #configurations
@@ -23,9 +27,21 @@ template(name="dashboard")
 
     .right-column
       +if activeConfig
+        +if currentUser
         #configuration-fields
           button.delete-btn Remove Config
           +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+              fieldset
+                legend Configuration
+                +afQuickField name="name"
+                +afQuickField name="collectionName"
+                +afQuickField name="jsonPath"
+                +afQuickField name="restUrl"
+                +afQuickField name="pollInterval"
+
+        +else
+          #configuration-fields
+            +autoForm(id="ApiConfigs"  doc=activeConfig collection="ApiConfigs")
             fieldset
               legend Configuration
               +afQuickField name="name"
@@ -49,6 +65,7 @@ template(name="dashboard")
       +else
         h4 &larr; Yo son, you ain't got no configs. Go make one!
 
+    +if currentUser
     .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
 
   #connect-steps.modal.fade

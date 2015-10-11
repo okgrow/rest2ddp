@@ -11,30 +11,11 @@ template(name="landing")
     button.btn.btn-default.btn-lg.github-signup Get Started
   #working
     h1.text-center Take any RESTful Endpoint and make it Real-time.
-    p.text-center 
-      .row
-        .col-md-6
-            input(
-              type='text'
-              placeholder='Enter an API URL'
-              class='form-control'
-            )
-        .col-md-6    
-            input(
-              type='text'
-              placeholder='Enter a JSON Path'
-              class='form-control'
-            )
-    #example.row   
-        .col-md-6
-            h3 JSON Output
-            .display-results
-        .col-md-6     
-            h3 Meteor Output   
-            .display-results
+    +dashboard
+  br
   #start
-    p.text-center Start using this now.              
-    button.center-block.btn.btn-success.btn-lg.github-signup Get Started   
+    p.text-center Start using this now.
+    button.center-block.btn.btn-success.btn-lg.github-signup Get Started
 
   footer.footer
    .container
