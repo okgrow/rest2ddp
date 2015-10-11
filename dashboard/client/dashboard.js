@@ -82,6 +82,15 @@ Template.dashboard.events({
   },
   'click .connect-steps-btn': function () {
     $('#connect-steps').modal('toggle');
+  },
+  'keyup .variable': function() {
+    var inputVars = {};
+    $('.variable').each(function(i) {
+      var value = $(this).val();
+      var key = $(this).data('label');
+      inputVars[key] = value;
+    });
+    Session.set('variableInputs', inputVars);
   }
 });
 
@@ -90,8 +99,11 @@ Template.dashboard.rendered = function () {
   Tracker.autorun(() => {
     var x = Session.get("activeConfig");
     var config = ApiConfigs.findOne(x);
-    console.log(config.restUrl)
-    Meteor.call('previewApiResult', config, function (err, result) {
+    var re = /\$\{([a-z\-]*)\}/g;
+    var variableInputs = Session.get('variableInputs')
+    // var config.restUrl = 
+    
+    Meteor.call('previewApiResult', config, variableInputs, function (err, result) {
       Session.set('output', result);
     });
   });
