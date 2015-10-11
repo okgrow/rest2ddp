@@ -12,18 +12,18 @@ template(name="dashboard")
     +if currentUser
       +dashboardNav
 
-    .left-column
-      #configurations
-        ul.config-listing
-          +each ApiConfigs
-            +if isActive _id
-              li.active
-                | {{name}}
-                .arrow
-            +else
-              li {{name}}
+      .left-column
+        #configurations
+          ul.config-listing
+            +each ApiConfigs
+              +if isActive _id
+                li.active
+                  | {{name}}
+                  .arrow
+              +else
+                li {{name}}
 
-        .add-btn +
+          .add-btn +
 
     .right-column
       strong REST2DDP
@@ -31,7 +31,7 @@ template(name="dashboard")
       hr
 
       +if activeConfig
-        +if currentUser
+        +unless currentUser
           #fields
             button.delete-btn Remove Config
             +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
@@ -46,39 +46,40 @@ template(name="dashboard")
         +else
           #fields
             +autoForm(id="ApiConfigs"  doc=activeConfig collection="ApiConfigs")
-            fieldset
-              legend 1. Configuration
-              +afQuickField name="name"
-              p This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
-              hr
-              +afQuickField name="collectionName"
-              +afQuickField name="jsonPath"
-              +afQuickField name="restUrl"
-              +afQuickField name="pollInterval"
+              fieldset
+                legend 1. Configuration
+                +afQuickField name="name"
+                p This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
+                hr
+                +afQuickField name="collectionName"
+                +afQuickField name="jsonPath"
+                +afQuickField name="restUrl"
+                +afQuickField name="pollInterval"
 
-            legend 2. Output
-            .left
-              h5 JSON Output
-              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
-            .right
-              h5 Meteor Output
-              textarea(name="MeteorOutput" placeholder="Meteor output goes here")
-                +each output.result
-                  | {{stringify this}}
+              legend 2. Output
+              .left
+                h5 JSON Output
+                textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+              .right
+                h5 Meteor Output
+                textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+                  +each output.result
+                    | {{stringify this}}
 
-            legend 3. Use it in your app!
-            +with activeConfig
-              h4 Anywhere (Client and/or Server)
-              pre
-                | REST2DDP = DDP.connect("{{url}}");
-                | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-                | REST2DDP.subscribe("rest2ddp", "{{name}}");
-                | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
+              legend 3. Use it in your app!
+              +with activeConfig
+                h4 Anywhere (Client and/or Server)
+                pre
+                  | REST2DDP = DDP.connect("{{url}}");
+                  | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
+                  | REST2DDP.subscribe("rest2ddp", "{{name}}");
+                  | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
 
       +else
         h4 &larr; Yo son, you ain't got no configs. Go make one!
 
-    .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
+    +if currentUser
+      .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
 
   #help-modal.modal.fade
     .modal-dialog
