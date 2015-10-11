@@ -49,7 +49,7 @@ template(name="dashboard")
       +else
         h4 &larr; Yo son, you ain't got no configs. Go make one!
 
-    .love Hacked together ♥ by Paul, Dave, Karl & Ben
+    .love Hacked together ♥ by Paul, Dave, Karl &amp; Ben
 
   #connect-steps.modal.fade
     .modal-dialog
@@ -61,12 +61,11 @@ template(name="dashboard")
         .modal-body
           +with activeConfig
             h4 Anywhere (Client and/or Server)
-            pre REST2DDP = DDP.connect("http://rest2ddp.meteor.com");
-            pre {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-            hr
-            h4 Client
-            pre REST2DDP.subscribe("rest2ddp", "{{name}}");
-            pre Tracker.autorun(function () {console.log({{collectionName}}.find({}, {sort: {_id: 1}}).fetch());});
+            pre
+              | REST2DDP = DDP.connect("http://rest2ddp.meteor.com");
+              | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
+              | REST2DDP.subscribe("rest2ddp", "{{name}}");
+              | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
 
 
   #help-modal.modal.fade
