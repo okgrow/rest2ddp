@@ -1,6 +1,8 @@
+var activeConfigId = new ReactiveVar('');
+
 var activeConfig = function () {
   if(Meteor.userId()) {
-    var x = Session.get("activeConfig");
+    var x = activeConfigId.get();
     return x && ApiConfigs.findOne(x);
   } else {
     var sample = EXAMPLE_SEED[1];
@@ -29,7 +31,7 @@ Template.dashboard.helpers({
   },
   activeConfig: activeConfig,
   isActive: function(id) {
-    if (id === Session.get("activeConfig")) {
+    if (id === activeConfigId.get()) {
       return true;
     }
   },
@@ -66,19 +68,19 @@ Template.dashboard.events({
       sample.name = result + "-DEMO";
       sample.userId = Meteor.userId();
       var x = ApiConfigs.insert(sample);
-      Session.set("activeConfig", x);
+      activeConfigId.set(x);
     });
   },
   'click .delete-btn': function (e,t) {
     var newConfig;
-    var x = Session.get("activeConfig");
+    var x = activeConfigId.get();
     ApiConfigs.remove(x);
     newConfig = ApiConfigs.findOne();
-    if (newConfig) Session.set("activeConfig",newConfig._id);
+    if (newConfig) activeConfigId.set(newConfig._id);
     t.$(".delete-btn").blur();
   },
   'click .config-listing li': function () {
-    Session.set("activeConfig", this._id);
+    activeConfigId.set(this._id);
   },
   'click .dash-help': function () {
     $('#help-modal').modal('toggle');
@@ -100,7 +102,7 @@ Template.dashboard.events({
 Template.dashboard.rendered = function () {
   // call previewApiResult whenever activeConfig changes
   Tracker.autorun(() => {
-    var x = Session.get("activeConfig");
+    var x = activeConfigId.get();
     var config = ApiConfigs.findOne(x);
     var re = /\$\{([a-z\-]*)\}/g;
     var variableInputs = Session.get('variableInputs');
@@ -113,6 +115,6 @@ Template.dashboard.rendered = function () {
     // set first ApiConfig as current
     var apiConfig = ApiConfigs.findOne();
     var setFirst = apiConfig && apiConfig._id;
-    Session.set("activeConfig", setFirst);
+    activeConfigId.set(setFirst);
   });
 };
