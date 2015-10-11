@@ -1,12 +1,11 @@
 template(name="landing")
-  #landing.text-center
-    nav.navbar.navbar-default
-     .container
-      .navbar-header
-       a.navbar-brand REST2DDP
-      ul.nav.navbar-nav.navbar-right  
-       li
+  #layout-nav.no-border
+    .layout-nav-left
+      .layout-nav-head REST2DDP
+    .layout-nav-right
+      .layout-nav-item
         +loginButtons
+  #landing.text-center
     h1 Easily translate your REST API into DDP
     h3 
     button.btn.btn-default.btn-lg.github-signup Get Started
