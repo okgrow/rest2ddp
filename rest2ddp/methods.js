@@ -11,7 +11,7 @@ Meteor.methods({
         error = e;
       }
 
-      if (rawResult.statusCode == 200) {
+      if (rawResult.statusCode && rawResult.statusCode == 200) {
         try {
           result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
         } catch (e) {
