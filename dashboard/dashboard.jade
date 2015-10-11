@@ -3,7 +3,6 @@ template(name="dashboardNav")
       .layout-nav-left
         .layout-nav-head REST2DDP Dashboard
       .layout-nav-right
-        .layout-nav-item.dash-help Help
         .layout-nav-item
           +loginButtons
 
@@ -147,7 +146,7 @@ template(name="dashboard")
                   +each output.result
                     | {{stringify this}}
 
-              legend(style="padding-top: 25px;") 3. How to Use
+              legend(style="padding-top: 25px;") 4. How to Use
               +with activeConfig
                 h4 Anywhere (Client and/or Server)
                 pre
@@ -162,37 +161,3 @@ template(name="dashboard")
     +if currentUser
       +love
 
-  #help-modal.modal.fade
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button" data-dismiss="modal" aria-label="Close")
-            span(aria-hidden="true") &times;
-          h4.modal-title REST2DDP Help
-        .modal-body
-          h4 What does this do?
-          p
-            strong REST2DDP
-            | allows you to convert a standard REST API into a simple near-realtime DDP endpoint which your simply subscribe to in your own Meteor app.
-          hr
-          h4 Do you have example Meteor apps I can check out?
-          p Why yes we do :) ... Actually no we do not :(
-          hr
-          h4 Input: Name of this Configuration
-          p This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
-          hr
-          h4 Input: Name of Collection
-          p Tell us the name of your app's collection that will publish this data to your clients.
-          hr
-          h4 Input: JSON Path to Returned Array
-          p REST APIs return a lot of junk, but we are only interested in the array of juicy data! We have no idea where that array of data is and need you to tell us.
-            | We use the JSON Path library for you to tell us what array to use for DDP. Your path must always be an array and end with a wildcard (*). Check out the
-            a(href="https://www.npmjs.com/package/jsonpath" target="_blank") jsonpath docs here
-            | . Example:
-            pre $.RelatedTopics.*
-          hr
-          h4 Input: REST Endpoint URL
-          p This is the URL of the REST call. Dynamic parameters coming in a later release.
-          hr
-          h4 Input: How often to poll the REST API
-          p Tell us how often you want us to poll & diff the REST endpoint in seconds.
