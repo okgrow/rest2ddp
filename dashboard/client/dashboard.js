@@ -21,12 +21,13 @@ Template.dashboard.helpers({
 
 Template.dashboard.events({
   'click .add-btn': function () {
-    var x = ApiConfigs.insert({
-      name: Random.id(),
-      userId: Meteor.userId()
+    Meteor.call("nameGenerator",function (error, result) {
+      var x = ApiConfigs.insert({
+        name: result,
+        userId: Meteor.userId()
+      });
+      Session.set("activeConfig", x);
     });
-    console.log(x);
-    Session.set("activeConfig", x);
   },
   'click .delete-btn': function (e,t) {
     var newConfig;
