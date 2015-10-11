@@ -54,7 +54,6 @@ Template.dashboard.helpers({
     return variableNames.length == 0;
   },
   toArray: function (object) {
-    console.log(_.pairs(object));
     return _.pairs(object);
   }
 });
@@ -94,7 +93,7 @@ Template.dashboard.rendered = function () {
   Tracker.autorun(() => {
     var x = Session.get("activeConfig");
     var config = ApiConfigs.findOne(x);
-    console.log(config.restUrl)
+    // console.log(config.restUrl)
     Meteor.call('previewApiResult', config, function (err, result) {
       Session.set('output', result);
     });
