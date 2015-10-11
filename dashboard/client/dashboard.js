@@ -52,11 +52,6 @@ Template.dashboard.events({
 });
 
 Template.dashboard.rendered = function () {
-  // set first ApiConfig as current
-  var apiConfig = ApiConfigs.findOne();
-  var x = apiConfig && apiConfig._id;
-  Session.set("activeConfig", x);
-  
   // call previewApiResult whenever activeConfig changes
   Tracker.autorun(() => {
     var x = Session.get("activeConfig");
@@ -66,14 +61,10 @@ Template.dashboard.rendered = function () {
       Session.set('output', result);
     });
   });
-
-
-  window.onresize = function(event) {
-    if (window.innerHeight <= 825) {
-      $("#dashboard").height(window.innerHeight - 95);
-    }
-  };
-  if (window.innerHeight <= 825) {
-    $("#dashboard").height(window.innerHeight - 95);
-  }
+  Tracker.autorun(() => {
+    // set first ApiConfig as current
+    var apiConfig = ApiConfigs.findOne();
+    var setFirst = apiConfig && apiConfig._id;
+    Session.set("activeConfig", setFirst);
+  });
 };
