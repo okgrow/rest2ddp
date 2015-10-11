@@ -6,11 +6,10 @@ body {
 }
 
 #dashboard {
-  width: 950px;
+  width: 100%;
   position: relative;
   margin: 0 auto;
   display: block;
-  height: 780px;
   .left-column {
     width: 225px;
     display: inline-block;
@@ -21,18 +20,21 @@ body {
     border-bottom: 1px solid #1e8449;
     border-left: 1px solid #229955;
     overflow: scroll;
+    position: fixed;
+    left: 0;
   }
   .right-column {
-    width: 725px;
     display: inline-block;
     float: right;
     height: 100%;
-    padding: 20px;
+    padding: 35px;
     background-color: white;
     border-bottom-right-radius: 5px;
     border-bottom: 1px solid #bdc3c7;
     border-right: 1px solid #bdc3c7;
     overflow: scroll;
+    width: 100%;
+    padding-left: 265px;
   }
 }
 
@@ -149,7 +151,7 @@ body {
   font-size: 25px;
   font-weight: 700;
   color: white;
-  margin: 20px auto;
+  margin: 20px auto 70px;
   box-shadow: 0px 2px 4px #1e8449, inset 0px 1px 0px rgba(255,255,255,0.4);
   text-shadow: 0px -1px 0px #27ae60;
   cursor: pointer;
@@ -179,9 +181,12 @@ body {
 
 .love {
   font-size: 12px;
-  position: fixed;
   bottom: 15px;
   left: 0;
-  right: 0;
   text-align: center;
+  padding: 0 40px;
+  padding-left: 225px;
+  display: inline-block;
+  width: 100%;
+  padding-top: 20px;
 }
