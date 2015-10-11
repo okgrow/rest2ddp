@@ -62,7 +62,7 @@ template(name="dashboard")
           +with activeConfig
             h4 Anywhere (Client and/or Server)
             pre
-              | REST2DDP = DDP.connect("http://rest2ddp.meteor.com");
+              | REST2DDP = DDP.connect("{{url}}");
               | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
               | REST2DDP.subscribe("rest2ddp", "{{name}}");
               | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();

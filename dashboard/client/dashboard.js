@@ -16,7 +16,10 @@ Template.dashboard.helpers({
 	},
 	stringify: function(str) {
 		return JSON.stringify(str, null, 2);
-	}
+	},
+  url: function() {
+    return Meteor.absoluteUrl();
+  }
 });
 
 Template.dashboard.events({
@@ -41,10 +44,10 @@ Template.dashboard.events({
     Session.set("activeConfig", this._id);
   },
   'click .dash-help': function () {
-    $('#help-modal').modal('toggle')
+    $('#help-modal').modal('toggle');
   },
   'click .connect-steps-btn': function () {
-    $('#connect-steps').modal('toggle')
+    $('#connect-steps').modal('toggle');
   }
 });
 
