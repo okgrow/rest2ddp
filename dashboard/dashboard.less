@@ -1,5 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800);
 
+@nav-height: 50px;
+
 body {
   background-color: #ecf0f1;
   font-family: 'Open Sans', sans-serif;
@@ -12,6 +14,7 @@ body {
   display: block;
   .left-column {
     width: 225px;
+    margin-top: @nav-height;
     display: inline-block;
     float: left;
     background-color: #229955;
@@ -26,6 +29,7 @@ body {
     display: inline-block;
     float: right;
     height: 100%;
+    margin-top: @nav-height;
     padding: 35px;
     background-color: white;
     border-bottom: 1px solid #bdc3c7;
@@ -85,9 +89,11 @@ body {
 }
 
 #dashboard-nav {
-  height: 50px;
+  height: @nav-height;
   display: block;
-  position: relative;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
   background-color: #2ecc71;
   color: white;
   border-left: 1px solid #229955;
