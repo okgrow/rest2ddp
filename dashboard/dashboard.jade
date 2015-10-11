@@ -22,27 +22,30 @@ template(name="dashboard")
         .add-btn +
 
     .right-column
-      #configuration-fields
-        button.delete-btn Remove Config
-        +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
-          fieldset
-            legend Configuration
-            +afQuickField name="name"
-            +afQuickField name="collectionName"
-            +afQuickField name="jsonPath"
-            +afQuickField name="restUrl"
-            +afQuickField name="pollInterval"
+      +if activeConfig
+        #configuration-fields
+          button.delete-btn Remove Config
+          +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+            fieldset
+              legend Configuration
+              +afQuickField name="name"
+              +afQuickField name="collectionName"
+              +afQuickField name="jsonPath"
+              +afQuickField name="restUrl"
+              +afQuickField name="pollInterval"
 
-        hr
+          hr
 
-        .left
-          h5 JSON Output
-          textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
-        .right
-          h5 Meteor Output
-          textarea(name="MeteorOutput" placeholder="Meteor output goes here")
-            +each output.result
-              | {{stringify this}}
+          .left
+            h5 JSON Output
+            textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+          .right
+            h5 Meteor Output
+            textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+              +each output.result
+                | {{stringify this}}
+      +else
+        h4 &larr; Yo son, you ain't got no configs. Go make one!
 
     .love Hacked together ♥ by Paul, Dave, Karl & Ben
 
@@ -71,7 +74,7 @@ template(name="dashboard")
           h4 Input: JSON Path to Returned Array
           p REST APIs return a lot of junk, but we are only interested in the array of juicy data! We have no idea where that array of data is and need you to tell us.
             | We use the JSON Path library for you to tell us what array to use for DDP. Your path must always be an array and end with a wildcard (*). Check out the
-            a(href="https://www.npmjs.com/package/jsonpath") jsonpath docs here
+            a(href="https://www.npmjs.com/package/jsonpath" target="_blank") jsonpath docs here
             | . Example:
             pre $.RelatedTopics.*
           hr

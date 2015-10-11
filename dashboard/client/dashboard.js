@@ -4,7 +4,7 @@ Template.dashboard.helpers({
   },
   activeConfig: function () {
     var x = Session.get("activeConfig");
-    return ApiConfigs.findOne(x);
+    return x && ApiConfigs.findOne(x);
   },
   isActive: function(id) {
     if (id === Session.get("activeConfig")) {
@@ -29,10 +29,12 @@ Template.dashboard.events({
     Session.set("activeConfig", x);
   },
   'click .delete-btn': function (e,t) {
+    var newConfig;
     var x = Session.get("activeConfig");
-    Session.set("activeConfig",ApiConfigs.findOne()._id);
+    ApiConfigs.remove(x);
+    newConfig = ApiConfigs.findOne();
+    if (newConfig) Session.set("activeConfig",newConfig._id);
     t.$(".delete-btn").blur();
-    return ApiConfigs.remove(x);
   },
   'click .config-listing li': function () {
     Session.set("activeConfig", this._id);
