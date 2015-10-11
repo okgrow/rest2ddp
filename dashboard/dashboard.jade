@@ -109,8 +109,9 @@ template(name="dashboard")
                +each variableNames
                  .form-group
                   label.custom-label
-                   | {{this}} : 
-                  input(type='text' data-label='{{this}}' placeholder='Define {{this}} here' class='form-control variable')             
+                   | ${{{this}}}  
+                  input(type='text' data-label='{{this}}' placeholder='Define "{{this}}" here' class='form-control variable') 
+              br
               legend 3. Output
               .left
                 h4 Raw API Response
