@@ -10,20 +10,16 @@ var activeConfig = function () {
 };
 
 var variableNames = function () {
-console.log('@@@', "variableNames"); // TODO remove this, for debugging only
   var config = activeConfig();
   var names = [];
   for (var key of Object.keys(config)) {
-    console.log('@@@', config[key]); // TODO remove this, for debugging only
     var re = /\$\{([a-z\-]*)\}/g;
     
     var match;
     while ((match = re.exec(config[key]))) {
-      console.log('@@@', match); // TODO remove this, for debugging only
       names.push(match[1]);
     }
   }
-  console.log('@@@', "names", names); // TODO remove this, for debugging only
   return names;
 };
 
@@ -44,12 +40,10 @@ Template.dashboard.helpers({
 		return JSON.stringify(str, null, 2);
 	},
   url: function() {
-    console.log('@@@', "url"); // TODO remove this, for debugging only
     return Meteor.absoluteUrl();
   },
   variableNames: variableNames,
   exampleVariables: function() {
-    console.log('@@@', "exampleVariables"); // TODO remove this, for debugging only
     var variables = {};
     for (var key of variableNames()) {
       variables[key] = "TODO";
