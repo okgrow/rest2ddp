@@ -1,6 +1,6 @@
 Template.dashboard.helpers({
   ApiConfigs: function () {
-    return ApiConfigs.find();
+    return ApiConfigs.find({}, {sort: {createdAt: 1}});
   },
   activeConfig: function () {
     var x = Session.get("activeConfig");

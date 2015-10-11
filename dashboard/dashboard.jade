@@ -14,7 +14,7 @@ template(name="dashboard")
           +each ApiConfigs
             +if isActive _id
               li.active
-                {{name}}
+                | {{name}}
                 .arrow
             +else
               li {{name}}
@@ -42,6 +42,6 @@ template(name="dashboard")
           h5 Meteor Output
           textarea(name="MeteorOutput" placeholder="Meteor output goes here")
             +each output.result
-              {{stringify this}}
+              | {{stringify this}}
 
     .love Hacked together ♥ by Paul, Dave, Karl & Ben
