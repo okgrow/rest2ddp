@@ -7,6 +7,8 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
   var config = ApiConfigs.findOne({name: apiConfigName});
   console.log('@@@', config); // TODO remove this, for debugging only
   
+  var pollInterval = config.pollInterval || 10;
+  
   var intervalHandle = Meteor.setInterval(() => {
     
     var rawResult = HTTP.get(config.restUrl);
@@ -97,7 +99,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     
     lastResults.set(apiConfigName, result);
     self.ready();
-  }, 5000);
+  }, pollInterval * 1000);
   
   self.onStop(() => {
     console.log("Stopping publication", apiConfigName);

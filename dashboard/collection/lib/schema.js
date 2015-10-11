@@ -42,15 +42,20 @@ ApiConfigs.attachSchema(new SimpleSchema({
     },
     optional: true
   },
+  pollInterval: {
+    type: Number,
+    label: 'How often to poll the REST API (in seconds)',
+    optional: true
+  },
   // Force value to be current date (on server) upon insert
   // and prevent updates thereafter.
   createdAt: {
     type: Date,
     autoValue: function() {
       if (this.isInsert) {
-        return new Date;
+        return new Date();
       } else if (this.isUpsert) {
-        return {$setOnInsert: new Date};
+        return {$setOnInsert: new Date()};
       } else {
         this.unset();
       }

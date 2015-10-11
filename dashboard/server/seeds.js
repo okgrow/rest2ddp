@@ -11,7 +11,8 @@ Meteor.startup(() => {
       name: "duckduckgo-meteor",
       collectionName: "duckDuckGoSearchResults",
       restUrl: "http://api.duckduckgo.com/?q=meteor&format=json&pretty=1",
-      jsonPath: "$.RelatedTopics.*"
+      jsonPath: "$.RelatedTopics.*",
+      pollInterval: 5
     });
     
     ApiConfigs.insert({
@@ -19,7 +20,8 @@ Meteor.startup(() => {
       name: "duckduckgo-kittens",
       collectionName: "duckDuckGoSearchResults",
       restUrl: "http://api.duckduckgo.com/?q=kittens&format=json&pretty=1",
-      jsonPath: "$.RelatedTopics.*"
+      jsonPath: "$.RelatedTopics.*",
+      pollInterval: 5
     });
     
     ApiConfigs.insert({
@@ -27,7 +29,8 @@ Meteor.startup(() => {
       name: "duckduckgo-sharks",
       collectionName: "duckDuckGoSearchResults",
       restUrl: "http://api.duckduckgo.com/?q=sharks&format=json&pretty=1",
-      jsonPath: "$.RelatedTopics.*"
+      jsonPath: "$.RelatedTopics.*",
+      pollInterval: 5
     });
 
     ApiConfigs.insert({
@@ -35,7 +38,8 @@ Meteor.startup(() => {
       name: "duckduckgo-bill-murray",
       collectionName: "duckDuckGoSearchResults",
       restUrl: "http://api.duckduckgo.com/?q=billmurray&format=json&pretty=1",
-      jsonPath: "$.RelatedTopics.*"
+      jsonPath: "$.RelatedTopics.*",
+      pollInterval: 5
     });
         
     ApiConfigs.insert({
@@ -43,7 +47,8 @@ Meteor.startup(() => {
       name: "weather",
       collectionName: "weatherForecasts",
       restUrl: "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22Toronto%2C%20CA%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys",
-      jsonPath: "$.query.results.channel.item.forecast.*"
+      jsonPath: "$.query.results.channel.item.forecast.*",
+      pollInterval: 5
     });
 
   }
