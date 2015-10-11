@@ -10,23 +10,32 @@ template(name="dashboard")
 
     .left-column
       #configurations
-        ul
-          li A Name
-          li Another Name
-          li No way
-          li.active Ben Strahan?!
-          li Yes way
+        ul.config-listing
+          +each ApiConfigs
+            +if isActive _id
+              li.active {{name}}
+            +else
+              li {{name}}
+
+        .add-btn +
 
     .right-column
       #configuration-fields
         h5 Configuration
-        input(type="text" name="name" placeholder="name" value="Ben Strahan?!")
+        label(for="name") Name
+        input(type="text" id="name" name="name" placeholder="name" value="{{activeConfig.name}}")
         br
-        input(type="text" name="url" placeholder="API URL")
+        label(for="collectionName") Collection Name
+        input(type="text" id="collectionName" name="collectionName" value="{{activeConfig.collectionName}}")
         br
-        input(type="text" name="config" placeholder="JSONPath Config")
+        label(for="url") REST URL
+        input(type="text" id="url" name="url" value="{{activeConfig.restUrl}}")
         br
-        input(type="text" name="auth" placeholder="Auth")
+        label(for="jsonPath") JSON Path
+        input(type="text" id="jsonPath" name="jsonPath" value="{{activeConfig.jsonPath}}")
+        br
+        label(for="auth") Auth
+        input(type="text" id="auth" name="auth" placeholder="Auth")
 
         hr
 

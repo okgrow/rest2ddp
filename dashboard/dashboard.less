@@ -9,7 +9,7 @@ body {
   position: relative;
   margin: 0 auto;
   display: block;
-  height: 800px;
+  height: 780px;
   .left-column {
     width: 225px;
     display: inline-block;
@@ -20,6 +20,7 @@ body {
     border-bottom: 1px solid #1e8449;
     border-left: 1px solid #229955;
     border-right: 1px solid #229955;
+    overflow: scroll;
   }
   .right-column {
     width: 725px;
@@ -50,6 +51,10 @@ body {
       padding-left: 20px;
       text-shadow: 0px -1px 0px #229955;
       cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding-right: 20px;
+      overflow: hidden;
       &:hover, &.active {
         background-color: #2cc36b;
         text-shadow: 0px -1px 0px #27ae60;
@@ -111,5 +116,24 @@ body {
   .right {
     float: right;
     display: inline-block;
+  }
+}
+
+.add-btn {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  line-height: 48px;
+  text-indent: 18px;
+  background-color: #2ecc71;
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+  margin: 20px auto;
+  box-shadow: 0px 2px 4px #1e8449, inset 0px 1px 0px rgba(255,255,255,0.4);
+  text-shadow: 0px -1px 0px #27ae60;
+  cursor: pointer;
+  &:active {
+    box-shadow: 0px 0px 1px #1e8449, inset 0px 1px 0px rgba(0,0,0,0.4);
   }
 }
