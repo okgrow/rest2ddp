@@ -1,6 +1,6 @@
 Meteor.methods({
   previewApiResult: function (config) {
-    if (!this.isSimulation) {
+    if (!this.isSimulation && config && config.restUrl && config.jsonPath) {
       var rawResult;
       var result;
       var error;
