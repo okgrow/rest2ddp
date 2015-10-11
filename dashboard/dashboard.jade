@@ -21,29 +21,24 @@ template(name="dashboard")
 
     .right-column
       #configuration-fields
-        h5 Configuration
-        label(for="name") Name
-        input(type="text" id="name" name="name" placeholder="name" value="{{activeConfig.name}}")
-        br
-        label(for="collectionName") Collection Name
-        input(type="text" id="collectionName" name="collectionName" value="{{activeConfig.collectionName}}")
-        br
-        label(for="url") REST URL
-        input(type="text" id="url" name="url" value="{{activeConfig.restUrl}}")
-        br
-        label(for="jsonPath") JSON Path
-        input(type="text" id="jsonPath" name="jsonPath" value="{{activeConfig.jsonPath}}")
-        br
-        label(for="auth") Auth
-        input(type="text" id="auth" name="auth" placeholder="Auth")
+        +autoForm(id="ApiConfigs" type="update" doc=activeConfig collection="ApiConfigs" autosave=true)
+          fieldset
+            legend Configuration
+            +afQuickField name="name"
+            +afQuickField name="collectionName"
+            +afQuickField name="jsonPath"
+            +afQuickField name="restUrl"
+            +afQuickField name="jsonPath"
 
         hr
 
         .left
           h5 JSON Output
-          textarea(name="JSONOutput" placeholder="JSON output goes here")
+          textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
         .right
           h5 Meteor Output
           textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+            +each output.result
+             {{stringify this}}
 
     .love Hacked together ♥ by Paul, Dave, Karl & Ben

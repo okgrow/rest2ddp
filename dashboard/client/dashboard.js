@@ -10,7 +10,19 @@ Template.dashboard.helpers({
     if (id === Session.get("activeConfig")) {
       return true;
     }
-  }
+  },
+	output: function() {
+		var x = Session.get("activeConfig");
+		var cool = ApiConfigs.findOne(x);
+
+		Meteor.call('previewApiResult', cool, function (err, result) {
+	    	Session.set('output', result);
+	    });
+		return Session.get('output');
+	},
+	stringify: function(str) { 
+		return JSON.stringify(str);
+	}
 });
 
 Template.dashboard.events({
@@ -29,6 +41,7 @@ Template.dashboard.events({
 Template.dashboard.rendered = function () {
   var x = ApiConfigs.findOne()._id;
   Session.set("activeConfig", x);
+<<<<<<< HEAD
 
   window.onresize = function(event) {
     if (window.innerHeight <= 825) {
@@ -39,3 +52,6 @@ Template.dashboard.rendered = function () {
     $("#dashboard").height(window.innerHeight - 95);
   }
 }
+=======
+}
+>>>>>>> 6dd4c92157635144d6cc7b16304117052324bdf8
