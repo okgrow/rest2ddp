@@ -4,6 +4,7 @@ body {
   background-color: #ecf0f1;
   font-family: 'Open Sans', sans-serif;
 }
+
 #dashboard {
   width: 950px;
   position: relative;
@@ -32,6 +33,7 @@ body {
     border-bottom-right-radius: 5px;
     border-bottom: 1px solid #bdc3c7;
     border-right: 1px solid #bdc3c7;
+    overflow: scroll;
   }
 }
 
@@ -77,6 +79,7 @@ body {
   border-left: 1px solid #229955;
   border-right: 1px solid #229955;
   border-bottom: 1px solid #229955;
+  overflow: hidden;
   .dash-left {
     float: left;
     display: inline-block;
@@ -136,4 +139,13 @@ body {
   &:active {
     box-shadow: 0px 0px 1px #1e8449, inset 0px 1px 0px rgba(0,0,0,0.4);
   }
+}
+
+.love {
+  font-size: 12px;
+  position: fixed;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
 }

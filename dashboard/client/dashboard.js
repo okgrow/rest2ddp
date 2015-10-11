@@ -29,4 +29,13 @@ Template.dashboard.events({
 Template.dashboard.rendered = function () {
   var x = ApiConfigs.findOne()._id;
   Session.set("activeConfig", x);
+
+  window.onresize = function(event) {
+    if (window.innerHeight <= 825) {
+      $("#dashboard").height(window.innerHeight - 95);
+    }
+  };
+  if (window.innerHeight <= 825) {
+    $("#dashboard").height(window.innerHeight - 95);
+  }
 }
