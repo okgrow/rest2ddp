@@ -7,7 +7,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
   var lastResults = new Map();
   
   var config = ApiConfigs.findOne({name: apiConfigName});
-  // console.log('@@@', config); // TODO remove this, for debugging only
+  // console.log('@@@', config);
   
   if (!config) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
@@ -23,7 +23,7 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     }
     var result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
     
-    console.log('@@@', "result", result);
+    // console.log('@@@', "result", result);
 
     var diff = DeepDiff.diff(lastResults.get(apiConfigName), result);
     
@@ -34,13 +34,13 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
     if (!lastResults.get(apiConfigName)) {
       // this is the first time, all are new
       for (var i = 0; i < result.length; i++) {
-        console.log("@@@ Rule 0: added", i, result[i]);
+        // console.log("@@@ Rule 0: added", i, result[i]);
         self.added(config.collectionName, `${apiConfigName}-${i}`, result[i]);
       }
     } else if (!diff) {
-      console.log ("@@@ No difference");
+      // console.log ("@@@ No difference");
     } else {
-      console.log('@@@ Diff', diff);
+      // console.log('@@@ Diff', diff);
       
       // NOTE: We're not really taking advantage of the diff library right now,
       // there are two issues:
@@ -84,7 +84,6 @@ Meteor.publish("rest2ddp", function (apiConfigName) {
       }
     }
   
-    console.log('@@@', added); // TODO remove this, for debugging only
     added.forEach((doc, id) => {
       console.log("added", id, ":", doc);
       self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
