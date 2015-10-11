@@ -100,8 +100,7 @@ Template.dashboard.rendered = function () {
     var x = Session.get("activeConfig");
     var config = ApiConfigs.findOne(x);
     var re = /\$\{([a-z\-]*)\}/g;
-    var variableInputs = Session.get('variableInputs')
-    // var config.restUrl = 
+    var variableInputs = Session.get('variableInputs');
     
     Meteor.call('previewApiResult', config, variableInputs, function (err, result) {
       Session.set('output', result);

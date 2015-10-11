@@ -91,7 +91,7 @@ template(name="dashboard")
                  +each variableNames
                   .form-group
                    label
-                    {{this}} : 
+                     | {{this}} : 
                     input(type='text' data-label='{{this}}' placeholder='Define {{this}} here' class='form-control variable')
                  +unless hasVariables
                   p You have no inputs. Here's how you set them up.
