@@ -1,0 +1,38 @@
+@nav-height: 50px;
+
+#layout-nav {
+  height: @nav-height;
+  display: block;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background-color: #2ecc71;
+  color: white;
+  border-left: 1px solid #229955;
+  border-right: 1px solid #229955;
+  border-bottom: 1px solid #229955;
+  .layout-nav-left {
+    float: left;
+    display: inline-block;
+    .layout-nav-head {
+      line-height: 50px;
+      padding-left: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  .layout-nav-right {
+    float: right;
+    display: inline-block;
+    padding-right: 10px;
+    .layout-nav-item {
+      display: inline-block;
+      padding: 0 10px;
+      line-height: 50px;
+    }
+  }
+}
+
+.no-border {
+  border: 0 !important;
+}
