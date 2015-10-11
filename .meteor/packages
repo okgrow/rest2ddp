@@ -19,7 +19,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 insecure                # Allow all DB writes from clients (for prototyping)
 
 accounts-github
-accounts-password # temporary, just for the seed data
 accounts-ui
 aldeed:autoform
 aldeed:collection2
