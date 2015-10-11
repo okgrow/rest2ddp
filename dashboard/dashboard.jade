@@ -45,10 +45,13 @@ template(name="dashboard")
 
             legend 2. Output
             .left
-              h5 JSON Output
-              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+              h4 JSON Output
+              h5 Status Code: {{output.statusCode}}
+              h5 Headers
+              p {{stringify output.headers}}
+              textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
             .right
-              h5 Meteor Output
+              h4 Meteor Collection Output
               textarea(name="MeteorOutput" placeholder="Meteor output goes here")
                 +each output.result
                   | {{stringify this}}
@@ -61,32 +64,38 @@ template(name="dashboard")
               fieldset
                 legend 1. Configuration
                 +afQuickField name="name"
-                p This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
+                p.dash-tooltip This is the name of your configuration. It must be unique in our system. You will pass us this name in your app's subscription.
                 hr
                 +afQuickField name="collectionName"
-                p Tell us the name of your app's collection that will publish this data to your clients.
+                p.dash-tooltip Tell us the name of your app's collection that will publish this data to your clients.
                 hr
                 +afQuickField name="jsonPath"
-                 p REST APIs return a lot of junk, but we are only interested in the array of juicy data! We have no idea where that array of data is and need you to tell us.
-                | We use the JSON Path library for you to tell us what array to use for DDP. Your path must always be an array and end with a wildcard (*). Check out the
-                a(href="https://www.npmjs.com/package/jsonpath" target="_blank") jsonpath docs here
-                | . Example:
-                .pre-span $.RelatedTopics.*
+                p.dash-tooltip
+                  | REST APIs return a lot of junk, but we are only interested in the array of juicy data! We have no idea where that array of data is and need you to tell us.
+                  | We use the JSON Path library for you to tell us what array to use for DDP. Your path must always be an array and end with a wildcard (*). Check out the
+                  a(href="https://www.npmjs.com/package/jsonpath" target="_blank") jsonpath docs here
+                  | . Example:
+                  .pre-span $.RelatedTopics.*
                 hr
                 +afQuickField name="restUrl"
-                p This is the URL of the REST call. Dynamic parameters coming in a later release.
+                p.dash-tooltip This is the URL of the REST call. Dynamic parameters coming in a later release.
                 hr
                 +afQuickField name="pollInterval"
-                p Tell us how often you want us to poll & diff the REST endpoint in seconds.
+                p.dash-tooltip Tell us how often you want us to poll & diff the REST endpoint in seconds.
                 hr
 
               legend 2. Output
               .left
-                h5 JSON Output
-                textarea(name="JSONOutput" placeholder="JSON output goes here") {{output.statusCode}} {{stringify output.headers}} {{output.content}}
+                h4 JSON Output
+                h5 Status Code {{output.statusCode}}
+                h5 Headers
+                textarea.headers {{stringify output.headers}}
+                h5 JSON
+                textarea.json-output(name="JSONOutput" placeholder="JSON output goes here") {{output.content}}
               .right
-                h5 Meteor Output
-                textarea(name="MeteorOutput" placeholder="Meteor output goes here")
+                h5 Your Collection
+                p.dash-tooltip This is the data your app will receive when you subscribe!
+                textarea.meteor-output(name="MeteorOutput" placeholder="Meteor output goes here")
                   +each output.result
                     | {{stringify this}}
 

@@ -12,6 +12,12 @@ body {
   position: relative;
   margin: 0 auto;
   display: block;
+  h5 {
+    font-weight: bold;
+  }
+  .form-group {
+    margin-bottom: 5px;
+  }
   .left-column {
     width: 225px;
     margin-top: @nav-height;
@@ -103,6 +109,14 @@ body {
       min-height: 400px;
       font-size: 12px;
       font-family: monospace;
+      &.headers {
+        height: 200px;
+        min-height: 200px;
+      }
+      &.meteor-output {
+        height: 650px;
+        min-height: 650px;
+      }
     }
   }
   .left {
@@ -170,4 +184,13 @@ body {
   display: inline;
   font-family: monospace;
   font-weight: bold;
+}
+
+.dash-tooltip {
+  font-size: 12px;
+  color: #999;
+}
+
+.help-block {
+  display: none;
 }

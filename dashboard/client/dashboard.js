@@ -60,11 +60,12 @@ Template.dashboard.helpers({
 
 Template.dashboard.events({
   'click .add-btn': function () {
+    var sample = EXAMPLE_SEED[1];
+
     Meteor.call("nameGenerator",function (error, result) {
-      var x = ApiConfigs.insert({
-        name: result,
-        userId: Meteor.userId()
-      });
+      sample.name = result + "-DEMO";
+      sample.userId = Meteor.userId();
+      var x = ApiConfigs.insert(sample);
       Session.set("activeConfig", x);
     });
   },
