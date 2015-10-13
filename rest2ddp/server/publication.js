@@ -116,10 +116,9 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       // so to be sure that we unset any field that has been removed we
       // remove and re-add the object. 😰
       // Soon we'll diff the object with the old one and send the changes.
-      self.removed(collectionName, `${apiConfigName}-${id}`);
-      self.added(collectionName, `${apiConfigName}-${id}`, doc);
+      self.removed(config.collectionName, `${apiConfigName}-${id}`);
+      self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
     });
-      
     
     lastResults.set(apiConfigName, result);
     self.ready();
