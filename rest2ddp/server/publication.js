@@ -2,25 +2,25 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
   var self = this;
   check(apiConfigName, String);
   // TODO check(variables)
-  
+
   console.log("Starting publication", apiConfigName);
-  
+
   var lastResults = new Map();
-  
+
   var config = ApiConfigs.findOne({name: apiConfigName});
   // console.log('@@@ config', config);
-  
+
   if (!config) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
   }
-  
+
   replaceVarInConfig(config, variables);
   // console.log('@@@ config after replace', config);
-  
+
   var pollInterval = config.pollInterval || 10;
-  
-  var intervalHandle = Meteor.setInterval(() => {
-    
+
+  let poll=() => {
+
     var rawResult;
     try {
       rawResult = HTTP.get(config.restUrl);
@@ -28,11 +28,11 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       console.log(e);
       throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed");
     }
-    
+
     if (rawResult.statusCode !== 200) {
       throw new Meteor.Error("HTTP-error-code", "The HTTP request failed with status code: " + rawResult.statusCode);
     }
-    
+
     var result;
     try {
       result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
@@ -40,11 +40,11 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       console.log(e);
       throw new Meteor.Error("result-parse-error", "Couldn't parse the results");
     }
-    
+
     // console.log('@@@', "result", result);
 
     var diff = DeepDiff.diff(lastResults.get(apiConfigName), result);
-    
+
     var added = new Map();
     var removed = new Map();
     var changed = new Map();
@@ -59,7 +59,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       // console.log ("@@@ No difference");
     } else {
       // console.log('@@@ Diff', diff);
-      
+
       // NOTE: We're not really taking advantage of the diff library right now,
       // there are two issues:
       //
@@ -74,7 +74,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       // exactly which fields changed but we're not using it.
       //
       // We'll fix those in a future iteration.
-      
+
       for (var diffItem of diff) {
         if (diffItem.kind === "A" && diffItem.index && diffItem.path === undefined) {
           if (diffItem.item.kind === "D") {
@@ -101,7 +101,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
         }
       }
     }
-  
+
     added.forEach((doc, id) => {
       console.log("added", id, ":", doc);
       self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
@@ -119,11 +119,15 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
       self.removed(config.collectionName, `${apiConfigName}-${id}`);
       self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
     });
-    
+
     lastResults.set(apiConfigName, result);
     self.ready();
-  }, pollInterval * 1000);
-  
+  };
+
+  poll(); //Trigger it for the first time. That makes a difference when the pollInterval is very long, longer than 1min for example.
+
+  var intervalHandle = Meteor.setInterval(poll, pollInterval * 1000);
+
   self.onStop(() => {
     console.log("Stopping publication", apiConfigName);
     Meteor.clearInterval(intervalHandle);
