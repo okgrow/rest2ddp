@@ -19,7 +19,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
   
   var pollInterval = config.pollInterval || 10;
   
-  var intervalHandle = Meteor.setInterval(() => {
+  let poll = () => {
     
     var rawResult;
     try {
@@ -122,7 +122,11 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
     
     lastResults.set(apiConfigName, result);
     self.ready();
-  }, pollInterval * 1000);
+  };
+  
+  poll();
+  
+  var intervalHandle = Meteor.setInterval(poll, pollInterval * 1000);
   
   self.onStop(() => {
     console.log("Stopping publication", apiConfigName);
