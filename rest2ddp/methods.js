@@ -10,7 +10,9 @@ Meteor.methods({
       replaceVarInConfig(config, variables);
       
       try {
-        rawResult = HTTP.get(config.restUrl);
+        rawResult = HTTP.get(config.restUrl, {
+          headers: {"User-Agent": "Meteor/1.0"}
+        });
       } catch (e) {
         console.log(e);
         error = e;
