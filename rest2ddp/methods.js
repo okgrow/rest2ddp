@@ -1,16 +1,20 @@
 Meteor.methods({
-  previewApiResult: function (config, variables) {
+  previewApiResult: function (config, options) {
     // TODO check() and other error handling
-    
     if (!this.isSimulation && config && config.restUrl && config.jsonPath) {
       var rawResult;
       var result;
       var error;
-      
-      replaceVarInConfig(config, variables);
+
+      if(options.variables){ 
+        replaceVarInConfig(config, options.variables);
+      }
       
       try {
-        rawResult = HTTP.get(config.restUrl);
+        rawResult = HTTP.call("GET", config.restUrl, {
+           headers: options.headers
+        });
+
       } catch (e) {
         console.log(e);
         error = e;

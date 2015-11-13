@@ -112,8 +112,32 @@ template(name="dashboard")
                    | ${{{this}}}  
                   input(type='text' data-label='{{this}}' placeholder='Define "{{this}}" here' class='form-control variable') 
               br
+
+              legend 3. Headers
+              p.dash-tooltip You can enter your headers here. The values of the headers is only used in the test example and not in sample code.
+              +each activeConfig.headers
+                .row
+                  .form-inline.form-group
+                      label.control-label
+                       | Name
+                      input(type='text' value='{{this}}' placeholder='Define header name here' class='form-control headersName')
+                      label.control-label
+                       | Value
+                      input(type='text' value='{{headerValue}}' placeholder='Define header value here' class='form-control headersValue' data-label='{{this}}')
+                      button#removeHeaderButton.btn.btn-danger.btn-clear(data-label='{{this}}')
+                        | &times;
+              .row
+                .form-inline.form-group#newHeaderFrom
+                    label.control-label
+                     | Name
+                    input#newHeaderName(type='text' placeholder='Define header name here' class='form-control') 
+                    label.control-label
+                     | Value
+                    input#newHeaderValue(type='text' placeholder='Define header value here' class='form-control')
+                    button#addHeaderButton.btn.btn-success.btn-clear
+                      | +
               +unless requestFail
-                legend 3. Output
+                legend 4. Output
                 .left
                   h4 Raw API Response
                   br
@@ -151,7 +175,7 @@ template(name="dashboard")
                   pre
                     | REST2DDP = DDP.connect("{{url}}");
                     | {{collectionName}} = new Mongo.Collection("{{collectionName}}", {connection: REST2DDP});
-                    | REST2DDP.subscribe("rest2ddp", "{{name}}", {{exampleVariables}});
+                    | REST2DDP.subscribe("rest2ddp", "{{name}}", {{options}});
                     | {{collectionName}}.find({}, {sort: {_id: 1}}).fetch();
 
               +else

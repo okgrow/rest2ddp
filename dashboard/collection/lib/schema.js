@@ -24,6 +24,10 @@ ApiConfigs.attachSchema(new SimpleSchema({
     label: 'REST Endpoint URL',
     optional: true
   },
+  headers: {
+    type: [String],
+    optional: true
+  },
   restAuth: {
     type: Object,
     blackbox: true,
