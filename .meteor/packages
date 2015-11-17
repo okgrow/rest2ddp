@@ -33,3 +33,6 @@ npm-packages
 twbs:bootstrap
 random
 reactive-var
+okgrow:analytics
+meteorhacks:kadira
+meteorhacks:zones
