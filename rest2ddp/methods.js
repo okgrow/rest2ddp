@@ -10,9 +10,12 @@ Meteor.methods({
         replaceVarInConfig(config, options.variables);
       }
       
+      // Only use headers frum current config
+      var headers = _.pick(options.headers, config.headers);
+
       try {
         rawResult = HTTP.call("GET", config.restUrl, {
-           headers: options.headers
+           headers: headers
         });
 
       } catch (e) {
