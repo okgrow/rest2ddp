@@ -6,8 +6,7 @@ Package.describe({
 Npm.depends({
   "deep-diff": "0.3.2",
   "jsonpath": "0.2.0",
-  "moniker": "0.1.2",
-  "underscore": "1.8.3"
+  "moniker": "0.1.2"
 });
 
 Package.onUse(function(api) {
@@ -21,5 +20,4 @@ Package.onUse(function(api) {
   api.export("DeepDiff", ["server"]);
   api.export("JsonPath", ["server"]);
   api.export("Moniker", ["server"]);
-  api.export("_", ["server"]);
 });

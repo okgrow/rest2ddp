@@ -80,9 +80,6 @@
     },
     "moniker": {
       "version": "0.1.2"
-    },
-    "underscore": {
-      "version": "1.8.3"
     }
   }
 }
