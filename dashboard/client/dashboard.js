@@ -132,9 +132,12 @@ Template.dashboard.events({
   'click #removeHeaderButton': function (event, template) {
     ApiConfigs.update(activeConfigId.get(), {$pull: {headers: event.target.getAttribute('data-label')}} );
   },
-  'keyup .headersName': function (event) {
+  'change .headersName': function (event) {
     // TODO update header in DB and in headerValus:
-    //ApiConfigs.update(activeConfigId.get() {$set: { "headers.$": event.target.value }});
+    var index = event.target.dataset.index;
+    var setter = {};
+    setter[`headers.${index}`] = event.target.value;
+    ApiConfigs.update(activeConfigId.get(), {$set: setter});
   },
   'keyup .headersValue': function (event, template) {
     template.headerValues.set(event.target.getAttribute('data-label'), event.target.value);

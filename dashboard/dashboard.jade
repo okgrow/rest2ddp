@@ -120,7 +120,7 @@ template(name="dashboard")
                   .form-inline.form-group
                       label.control-label
                        | Name
-                      input(type='text' value='{{this}}' placeholder='Define header name here' class='form-control headersName')
+                      input(type='text' value='{{this}}' placeholder='Define header name here' class='form-control headersName' data-index='{{@index}}')
                       label.control-label
                        | Value
                       input(type='text' value='{{headerValue}}' placeholder='Define header value here' class='form-control headersValue' data-label='{{this}}')
