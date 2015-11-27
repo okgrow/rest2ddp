@@ -56,8 +56,10 @@ Template.dashboard.helpers({
       options.variables[key] = "TODO";
     }
     
-    for (var key of headersKeys) {
-      options.headers[key] = "TODO";
+    if(headersKeys){
+      for (var key of headersKeys) {
+        options.headers[key] = "TODO";
+      }
     }
 
     return JSON.stringify(options);
