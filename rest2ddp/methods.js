@@ -1,18 +1,23 @@
 Meteor.methods({
-  previewApiResult: function (config, variables) {
+  previewApiResult: function (config, options) {
     // TODO check() and other error handling
-    
     if (!this.isSimulation && config && config.restUrl && config.jsonPath) {
       var rawResult;
       var result;
       var error;
+
+      if(options.variables){ 
+        replaceVarInConfig(config, options.variables);
+      }
       
-      replaceVarInConfig(config, variables);
-      
+      // Only use headers frum current config
+      var headers = _.pick(options.headers, config.headers);
+
       try {
-        rawResult = HTTP.get(config.restUrl, {
-          headers: {"User-Agent": "Meteor/1.0"}
+        rawResult = HTTP.call("GET", config.restUrl, {
+           headers: headers
         });
+
       } catch (e) {
         console.log(e);
         error = e;

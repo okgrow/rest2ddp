@@ -1,4 +1,4 @@
-Meteor.publish("rest2ddp", function (apiConfigName, variables) {
+Meteor.publish("rest2ddp", function (apiConfigName, options) {
   var self = this;
   check(apiConfigName, String);
   // TODO check(variables)
@@ -8,24 +8,30 @@ Meteor.publish("rest2ddp", function (apiConfigName, variables) {
   var lastResults = new Map();
   
   var config = ApiConfigs.findOne({name: apiConfigName});
+
+  // Get rid of headers that are not defined for this config
+  options.headers = _.pick(options.headers, config.headers);
+
   // console.log('@@@ config', config);
   
   if (!config) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
   }
   
-  replaceVarInConfig(config, variables);
+  replaceVarInConfig(config, options.variables);
   // console.log('@@@ config after replace', config);
   
   var pollInterval = config.pollInterval || 10;
   
   let poll = () => {
     
+    // TODO: Duplicate with methods.js
     var rawResult;
     try {
-      rawResult = HTTP.get(config.restUrl, {
-        headers: {"User-Agent": "Meteor/1.0"}
-      });
+        rawResult = HTTP.call("GET", config.restUrl, {
+           headers: options.headers
+        });
+
     } catch (e) {
       console.log(e);
       throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed");
