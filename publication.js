@@ -1,46 +1,56 @@
-Meteor.publish("rest2ddp", function (apiConfigName, options) {
+Meteor.publish("REST2DDP", function (apiConfigName, options) {
   var self = this;
   check(apiConfigName, String);
-  // TODO check(variables)
-  
-  console.log("Starting publication", apiConfigName);
-  
+  check(options, {
+    variables: Match.Optional(Object),
+    headers: Match.Optional(Object)
+  });
+  // is there a better way to check dynamic named keys?
+  for (let varName in options.variables) {
+    check(options.variables[varName], Match.OneOf(String,Boolean,Number));
+  }
+  for (let varName in options.headers) {
+    check(options.headers[varName], String);
+  }
+
+  console.log("REST2DDP - Starting publication", apiConfigName);
+
   var lastResults = new Map();
-  
-  var config = ApiConfigs.findOne({name: apiConfigName});
+
+  var config = _.find(REST2DDP.configs,function(configObj){return configObj.name===apiConfigName});
+  //var config = ApiConfigs.findOne({name: apiConfigName});
+  // console.log('@@@ config', config);
 
   // Get rid of headers that are not defined for this config
   options.headers = _.pick(options.headers, config.headers);
 
-  // console.log('@@@ config', config);
-  
   if (!config) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
   }
-  
-  replaceVarInConfig(config, options.variables);
+
+  config = replaceVarInConfig(config, options.variables);
   // console.log('@@@ config after replace', config);
-  
+
   var pollInterval = config.pollInterval || 10;
-  
+
   let poll = () => {
-    
-    // TODO: Duplicate with methods.js
+
+    console.log("REST2DDP - poll running for ",apiConfigName);
+
     var rawResult;
     try {
-        rawResult = HTTP.call("GET", config.restUrl, {
-           headers: options.headers
-        });
-
+      rawResult = HTTP.call("GET", config.restUrl, {
+        headers: options.headers
+      });
     } catch (e) {
       console.log(e);
       throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed");
     }
-    
+
     if (rawResult.statusCode !== 200) {
       throw new Meteor.Error("HTTP-error-code", "The HTTP request failed with status code: " + rawResult.statusCode);
     }
-    
+
     var result;
     try {
       result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
@@ -48,11 +58,11 @@ Meteor.publish("rest2ddp", function (apiConfigName, options) {
       console.log(e);
       throw new Meteor.Error("result-parse-error", "Couldn't parse the results");
     }
-    
+
     // console.log('@@@', "result", result);
 
     var diff = DeepDiff.diff(lastResults.get(apiConfigName), result);
-    
+
     var added = new Map();
     var removed = new Map();
     var changed = new Map();
@@ -67,7 +77,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, options) {
       // console.log ("@@@ No difference");
     } else {
       // console.log('@@@ Diff', diff);
-      
+
       // NOTE: We're not really taking advantage of the diff library right now,
       // there are two issues:
       //
@@ -82,7 +92,7 @@ Meteor.publish("rest2ddp", function (apiConfigName, options) {
       // exactly which fields changed but we're not using it.
       //
       // We'll fix those in a future iteration.
-      
+
       for (var diffItem of diff) {
         if (diffItem.kind === "A" && diffItem.index && diffItem.path === undefined) {
           if (diffItem.item.kind === "D") {
@@ -109,17 +119,17 @@ Meteor.publish("rest2ddp", function (apiConfigName, options) {
         }
       }
     }
-  
+
     added.forEach((doc, id) => {
-      console.log("added", id, ":", doc);
+      //console.log("added", id, ":", doc);
       self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
     });
     removed.forEach((doc, id) => {
-      console.log("removed", id, ":", doc);
+      //console.log("removed", id, ":", doc);
       self.removed(config.collectionName, `${apiConfigName}-${id}`);
     });
     changed.forEach((doc, id) => {
-      console.log("changed", id, ":", doc);
+      //console.log("changed", id, ":", doc);
       // This is really inefficient but for now we're not tracking changes by field
       // so to be sure that we unset any field that has been removed we
       // remove and re-add the object. 😰
@@ -127,17 +137,17 @@ Meteor.publish("rest2ddp", function (apiConfigName, options) {
       self.removed(config.collectionName, `${apiConfigName}-${id}`);
       self.added(config.collectionName, `${apiConfigName}-${id}`, doc);
     });
-    
+
     lastResults.set(apiConfigName, result);
     self.ready();
   };
-  
+
   poll();
-  
+
   var intervalHandle = Meteor.setInterval(poll, pollInterval * 1000);
-  
+
   self.onStop(() => {
-    console.log("Stopping publication", apiConfigName);
+    console.log("REST2DDP - Stopping publication", apiConfigName);
     Meteor.clearInterval(intervalHandle);
   });
 });
