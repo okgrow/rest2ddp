@@ -1,0 +1,25 @@
+<head>
+  <title>Windy Cities</title>
+</head>
+
+<body>
+<h1>REST2DDP Windy Cities</h1>
+
+{{>forecasts}}
+</body>
+
+<template name="forecasts">
+  {{#if Template.subscriptionsReady}}
+    <div class="half-width">
+      <h2>Data from REST2DDP Package</h2>
+      {{#each city in weather}}
+        <h3>Current Wind Speed for {{city.location.city}}, {{city.location.region}}</h3>
+        <p>{{city.wind.speed}} {{city.units.speed}}</p>
+        <p>Feels like {{city.wind.chill}}&deg;{{city.units.temperature}}</p>
+        <p>Update by yahoo on {{city.lastBuildDate}}</p>
+      {{/each}}
+    </div>
+  {{else}}
+    <h1>Loading…</h1>
+  {{/if}}
+</template>
