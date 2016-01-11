@@ -26,15 +26,26 @@ Meteor.publish("REST2DDP", function (apiConfigName, options) {
   //var config = ApiConfigs.findOne({name: apiConfigName});
   // console.log('@@@ config', config);
 
-  // Get rid of headers that are not defined for this config
-  options.headers = _.pick(options.headers, config.headers);
-
   if (!config) {
     throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
   }
 
-  config = replaceVarInConfig(config, options.variables);
-  // console.log('@@@ config after replace', config);
+  // Merge headers defined on the client with headers defined on the server (config)
+  if (options && options.headers && config.headers) {
+    options.headers = _.defaults(options.headers, config.headers);
+  } else if (config.headers) {
+    options.headers = config.headers;
+  }
+
+  // Get rid of headers that are not defined for this config
+  if (options && options.headers && config.headerKeys) {
+    options.headers = _.pick(options.headers, config.headerKeys);
+  }
+
+  if (options && options.variables) {
+    config = replaceVarInConfig(config, options.variables);
+    // console.log('@@@ config after replace', config);
+  }
 
   var pollInterval = config.pollInterval || 10;
 
@@ -45,7 +56,7 @@ Meteor.publish("REST2DDP", function (apiConfigName, options) {
     var rawResult;
     try {
       rawResult = HTTP.call("GET", config.restUrl, {
-        headers: options.headers
+        headers: (options && options.headers) || {}
       });
     } catch (e) {
       console.log(e);
