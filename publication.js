@@ -1,16 +1,21 @@
 Meteor.publish("REST2DDP", function (apiConfigName, options) {
   var self = this;
   check(apiConfigName, String);
-  check(options, {
+  check(options, Match.Optional({
     variables: Match.Optional(Object),
     headers: Match.Optional(Object)
-  });
+  }));
+
   // is there a better way to check dynamic named keys?
-  for (let varName in options.variables) {
-    check(options.variables[varName], Match.OneOf(String,Boolean,Number));
+  if (options && options.variables) {
+    for (let varName in options.variables) {
+      check(options.variables[varName], Match.OneOf(String,Boolean,Number));
+    }
   }
-  for (let varName in options.headers) {
-    check(options.headers[varName], String);
+  if (options && options.headers) {
+    for (let varName in options.headers) {
+      check(options.headers[varName], String);
+    }
   }
 
   console.log("REST2DDP - Starting publication", apiConfigName);
