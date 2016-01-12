@@ -11,7 +11,7 @@ Npm.depends({
 });
 
 Package.onUse(function (api) {
-  api.use(['ecmascript', 'es5-shim', 'check','http@1.1.1']);
+  api.use(['ecmascript@0.1.6', 'es5-shim@4.1.14', 'check@1.1.0','http@1.1.1']);
   api.addFiles('publication.js', ['server']);
   api.addFiles('apiConfigLib.js', ['server']);
   api.export('REST2DDP');

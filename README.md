@@ -22,15 +22,15 @@ BaseballPlayers = new Mongo.Collection('baseballPlayers');
 
 `REST2DDP.configs` is a global array of objects which hold configuration settings for each publication. Since this object could hold private keys it is recommended to only have these configs on the server-side.
 
-|: Setting      :|: Type :|: Required:|: Description :|
-| ---            | ---    | ---       | ---           |
-|**name**        | string | true      | Name of the publication to subscribe to. |
-|**collection**  | string | true      | Specify which collection to send data. |
-|**restUrl**     | string | true      | The URL of the REST call. Dynamic parameters are held by a dollar sign blocks, `${varName}`. |
-|**jsonPath**    | string | true      | Tell REST2DDP where to find the array in the API response. The path must always be an array and end with a wildcard (*). Check out the [jsonpath](https://www.npmjs.com/package/jsonpath) docs. |
-|**pollInterval**| number | false     | Sets the interval in seconds of pinging the API. Defaults to 10 seconds. |
-|**headerKeys**  | array  | false     | An array of strings. Specifies which keys are allowed in the header of a call. Good idea to set since clients can modify the header. |
-|**headers**     | object | false     | Pass an object of default key values passed with every call. Client can override key values. Values must be a string. |
+| Setting        | Type   | Required | Description |
+| ---            | ---    | ---      | ---         |
+|**name**        | string | true     | Name of the publication to subscribe to. |
+|**collection**  | string | true     | Specify which collection to send data. |
+|**restUrl**     | string | true     | The URL of the REST call. Dynamic parameters are held by a dollar sign blocks, `${varName}`. |
+|**jsonPath**    | string | true     | Tell REST2DDP where to find the array in the API response. The path must always be an array and end with a wildcard (*). Check out the [jsonpath](https://www.npmjs.com/package/jsonpath) docs. |
+|**pollInterval**| number | false    | Sets the interval in seconds of pinging the API. Defaults to 10 seconds. |
+|**headerKeys**  | array  | false    | An array of strings. Specifies which keys are allowed in the header of a call. Good idea to set since clients can modify the header. |
+|**headers**     | object | false    | Pass an object of default key values passed with every call. Client can override key values. Values must be a string. |
 
 
 ```javascript
@@ -67,11 +67,11 @@ REST2DDP.configs.push({
 
 On the client you will subscribe to REST2DDP like you would any other publication and pass it parameters. The name of the publication you are subscribing to will always be `'REST2DDP'`.
 
-|: Argument :|: Type :|: Required:|: Description :|
-| ---        | ---    | ---       | ---           |
-| 1          | string | true      | Name of the publication you are subscribing to will always be `'REST2DDP'`. |
-| 2          | string | true      | Name of configuration to call. |
-| 3          | object | false     | Takes upto two optional keys which are objects, `variables: {object}` and `headers: {object}`. |
+| Argument | Type   | Required | Description |
+| ---      | ---    | ---      | ---         |
+| 1        | string | true     | Name of the publication you are subscribing to will always be `'REST2DDP'`. |
+| 2        | string | true     | Name of configuration to call. |
+| 3        | object | false    | Takes upto two optional keys which are objects, `variables: {object}` and `headers: {object}`. |
 
 
 ```javascript
