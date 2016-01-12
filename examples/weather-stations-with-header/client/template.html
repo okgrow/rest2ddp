@@ -1,0 +1,25 @@
+<head>
+  <title>NOAA Stations</title>
+</head>
+
+<body>
+<h1>NOAA Stations</h1>
+
+{{>stationsList}}
+</body>
+
+<template name="stationsList">
+  {{#if Template.subscriptionsReady}}
+    <div class="half-width">
+      {{#each stations}}
+        <h3>Name: {{name}} ({{id}})</h3>
+        <p>Location: {{latitude}}, {{longitude}}</p>
+        <p>Elevation: {{elevation}} {{elevationUnit}}</p>
+        <p>Data Available Between: {{mindate}} thru {{maxdate}} ({{coverage}})</p>
+        <hr>
+      {{/each}}
+    </div>
+  {{else}}
+    <h1>Loading…</h1>
+  {{/if}}
+</template>
