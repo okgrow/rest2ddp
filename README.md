@@ -89,7 +89,7 @@ Template.playersList.onCreated(function () {
   // ADVANCE EXAMPLE
   // -----------------
   self.autorun(function () {
-    self.subscribe('REST2DDP', 'basic-baseball-player-stats', {
+    self.subscribe('REST2DDP', 'adv-baseball-player-stats', {
       variables: {
         teamName: 'cubs'
       },
