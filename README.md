@@ -20,7 +20,7 @@ BaseballPlayers = new Mongo.Collection('baseballPlayers');
  
 ## 2. Config Objects (Server)
 
-`REST2DDP.config` is a global array of objects which hold configuration settings for each publication. Since this object could hold private keys it is recommended to only have these configs on the server-side.
+`REST2DDP.configs` is a global array of objects which hold configuration settings for each publication. Since this object could hold private keys it is recommended to only have these configs on the server-side.
 
 |: Setting      :|: Type :|: Required:|: Description :|
 | ---            | ---    | ---       | ---           |
