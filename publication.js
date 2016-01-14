@@ -27,7 +27,7 @@ Meteor.publish("REST2DDP", function (apiConfigName, options) {
   // console.log('@@@ config', config);
 
   if (!config) {
-    throw new Meteor.Error("config-not-found", "The config named " + apiConfigName + " was not found.");
+    throw new Meteor.Error("config-not-found", "REST2DDP - The config named " + apiConfigName + " was not found.");
   }
 
   // Merge headers defined on the client with headers defined on the server (config)
@@ -60,11 +60,11 @@ Meteor.publish("REST2DDP", function (apiConfigName, options) {
       });
     } catch (e) {
       console.log(e);
-      throw new Meteor.Error("HTTP-request-failed", "The HTTP request failed");
+      throw new Meteor.Error("HTTP-request-failed", "REST2DDP - The HTTP request for " + apiConfigName + " failed");
     }
 
     if (rawResult.statusCode !== 200) {
-      throw new Meteor.Error("HTTP-error-code", "The HTTP request failed with status code: " + rawResult.statusCode);
+      throw new Meteor.Error("HTTP-error-code", "REST2DDP - The HTTP request for " + apiConfigName + " failed with status code: " + rawResult.statusCode);
     }
 
     var result;
@@ -72,7 +72,7 @@ Meteor.publish("REST2DDP", function (apiConfigName, options) {
       result = JsonPath.query(JSON.parse(rawResult.content), config.jsonPath);
     } catch (e) {
       console.log(e);
-      throw new Meteor.Error("result-parse-error", "Couldn't parse the results");
+      throw new Meteor.Error("result-parse-error", "REST2DDP - Couldn't parse the results for " + apiConfigName);
     }
 
     // console.log('@@@', "result", result);
