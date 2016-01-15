@@ -103,3 +103,7 @@ Template.playersList.onCreated(function () {
 
 - Support XML
 - Support single document returns
+
+## Contributing
+
+Issues and Pull Requests are always welcome. Please read our [contribution guidelines](https://github.com/okgrow/guides/blob/master/contributing.md).
