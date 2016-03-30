@@ -6,7 +6,7 @@ Add it to your project `meteor add okgrow:rest2ddp`.
 
 ## Examples
 
-- Scrapping websites with yahoo tools ([code](https://github.com/okgrow/rest2ddp/tree/master/examples/currency-quotes-scrapper))
+- Scraping websites with yahoo tools ([code](https://github.com/okgrow/rest2ddp/tree/master/examples/currency-quotes-scraper))
 - Passing parameters to get windchills ([code](https://github.com/okgrow/rest2ddp/tree/master/examples/weather-with-variables))
 - Passing tokens in header to get gov data ([code](https://github.com/okgrow/rest2ddp/tree/master/examples/weather-stations-with-header))
 
