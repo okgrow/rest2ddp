@@ -1,10 +1,12 @@
+# Deprecated
+
+DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not actively developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
+
 # REST2DDP Meteor Atmosphere Package
 
 Convert REST APIs into DDP publications for your client side to reactively consume.
 
 Add it to your project `meteor add okgrow:rest2ddp`.
-
-DISCLAIMER - ***Development of this package is currently on hiatus***. We are currently not actively developing this package due to both resource constraints and uncertainty about how well supported it will be in the future. We are using this in our active projects, so we will continue to do bug fixes as we encounter them, but feature requests may go unanswered. PRs are still welcome.
 
 ## Examples
 
